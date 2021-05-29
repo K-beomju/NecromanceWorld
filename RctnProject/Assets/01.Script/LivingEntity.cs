@@ -24,7 +24,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
 
 
-    protected void Awake()
+    protected  void Awake()
     {
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();

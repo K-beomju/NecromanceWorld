@@ -6,14 +6,15 @@ public class Enemy : LivingEntity
 {
     public Player player;
     public Enemy enemy;
-    int count;
+
+
+
 
     void Update()
     {
         base.Attack("Player");
-
-
     }
+
 
     protected override void Die()
     {
@@ -24,6 +25,7 @@ public class Enemy : LivingEntity
         sprite.color = Color.white;
 
        GameManager.instance.Dead(this);
+       Destroy(enemy);
     }
 
 

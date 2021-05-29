@@ -11,8 +11,9 @@ public class GameManager : MonoBehaviour
     {
         public List<Enemy> list; // 몬스터의 수
     }
-    public EnemyStruct[] enemyStructs; // 몬스터 그룹
-
+    public EnemyStruct[] enemyStructs = new EnemyStruct[10]; // 몬스터 그룹
+    [HideInInspector]
+    public int enemyGroup;
 
 
     public static GameManager instance;
@@ -26,47 +27,66 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
+
         instance = this;
         Cursor.visible = false;
-         enemyPool = new ObjectPooling<Enemy>[enemyPrefab.Length];
+        enemyPool = new ObjectPooling<Enemy>[enemyPrefab.Length];
         for (int i = 0; i < enemyPrefab.Length; i++)
         {
-            enemyPool[i] = new ObjectPooling<Enemy>(enemyPrefab[i], this.transform, 10);
+            enemyPool[i] = new ObjectPooling<Enemy>(enemyPrefab[i], this.transform, 100);
         }
+        enemyGroup = 0;
+
     }
 
-    void Start()
+    protected void Start()
     {
         StartCoroutine(SpawnEnemys());
     }
 
     private IEnumerator SpawnEnemys()
     {
+
         while (true)
         {
-            int rand = UnityEngine.Random.Range(2,5);
-
-            for (int i = 0; i < rand; i++)
+            if (enemyPrefab != null)
             {
-               enemyStructs[0].list.Add(enemyPool[0].GetOrCreate());
+                for (int i = 0; i <= enemyGroup; i++)
+                {
+                    if (enemyStructs[i].list.Count == 0)
+                    {
+                        enemyGroup = i;
+                    }
+                    else
+                    {
+                        enemyGroup++;
+                    }
+                }
+
+                int randCount = UnityEngine.Random.Range(2, 5);
+                for (int i = 0; i < randCount; i++)
+                {
+                    enemyStructs[enemyGroup].list.Add(enemyPool[0].GetOrCreate());
+                }
+
+                yield return new WaitForSeconds(5f);
             }
-
-
-            yield return new WaitForSeconds(4f);
         }
+
     }
+
 
     public void Dead(Enemy _enemy)
     {
-        for (int i = enemyStructs.Length - 1;  i >= 0; i--)
+        for (int i = enemyStructs.Length - 1; i >= 0; i--)
         {
-        enemyStructs[i].list.Remove(_enemy);
+            enemyStructs[i].list.Remove(_enemy);
 
         }
     }
 
 
-     public static void CamShake(float intense, float during)
+    public static void CamShake(float intense, float during)
     {
         instance.camEffect.SetShake(intense, during);
     }

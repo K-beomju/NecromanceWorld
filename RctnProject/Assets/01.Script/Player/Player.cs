@@ -44,7 +44,11 @@ public class Player : LivingEntity
 
     protected override void Die()
     {
-        GameManager.CamShake(0.1f, 0.1f);
+        GameManager.CamShake(1f, 1f);
+        gameObject.SetActive(false);
+        GameManager.instance.crossHair.SetActive(false);
+         Cursor.visible = true;
+
     }
 
 
