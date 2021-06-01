@@ -8,73 +8,90 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     protected SpriteRenderer sprite;
     protected Animator anim;
     protected Rigidbody2D rig;
+    protected CapsuleCollider2D capsule;
 
     protected Vector2 normalizedDirection;
     protected Vector2 direction;
-    protected  Vector3 targetPosition;
+    protected Vector3 targetPosition;
     protected Collider2D hitCollider;
 
 
     protected float moveSpeed;
     protected bool dead;
-    public float health;
+    private float health;
     public float startingHealth;
-    public float attackRange;
-    public float attackDamage;
+    // public float attackRange;
+    // public float attackDamage;
+    public Vector3 offset;
+    protected Vector3 attackPosition;
+
+    [SerializeField]
+    private AbilityData abilityData;
+    public AbilityData ZombieData { set { abilityData = value; } }
 
 
 
-    protected  void Awake()
+
+    protected void Awake()
     {
+        capsule = GetComponent<CapsuleCollider2D>();
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         rig = GetComponent<Rigidbody2D>();
+
     }
 
-    protected  void Start()
+    protected void Start()
     {
         dead = false;
-        moveSpeed = 5f;
+        moveSpeed = abilityData.MoveSpeed;
         health = startingHealth;
     }
 
     public void Rotate()
     {
-        transform.Translate(normalizedDirection  * moveSpeed * Time.deltaTime);
+        transform.Translate(normalizedDirection * moveSpeed * Time.deltaTime);
 
-        normalizedDirection = new Vector2(direction.x,direction.y);
-        if(normalizedDirection.x > 0)
+
+        normalizedDirection = new Vector2(direction.x, direction.y);
+        if (normalizedDirection.x > 0)
         {
             //SpriteRender가져와서 FlipX해도 가능
-            transform.localScale = new Vector2(0.7f,0.7f);
+            transform.localScale = new Vector2(0.9f, 0.9f);
         }
         else
         {
-             transform.localScale = new Vector2(-0.7f,0.7f);
+            transform.localScale = new Vector2(-0.9f, 0.9f);
         }
     }
 
     public void Attack(string targetName)
     {
         int layerMask = 1 << LayerMask.NameToLayer(targetName);
-        if (hitCollider = Physics2D.OverlapCircle(transform.position, attackRange, layerMask))
+        attackPosition = transform.position + offset;
+        if (hitCollider = Physics2D.OverlapCircle(attackPosition, abilityData.AttackRange, layerMask))
         {
+
             anim.SetBool("isAttack", true);
         }
         else
         {
+            moveSpeed = abilityData.MoveSpeed;
             anim.SetBool("isAttack", false);
         }
     }
 
-      public void DAttack()
+
+
+    public void DAttack()
     {
         if (hitCollider != null)
         {
             LivingEntity target = hitCollider.transform.GetComponent<LivingEntity>();
             if (target != null)
             {
-                target.OnDamage(attackDamage);
+                moveSpeed = 3;
+                target.OnDamage(abilityData.AttackDamage);
             }
 
         }
@@ -82,10 +99,13 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     }
 
 
+
+
+
     public void OnDamage(float damage)
     {
         health -= damage;
-        if(health <= 0)
+        if (health <= 0)
         {
             Die();
 
@@ -96,7 +116,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     public void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, attackRange);
+        Gizmos.DrawWireSphere(attackPosition, abilityData.AttackRange);
     }
 
 }

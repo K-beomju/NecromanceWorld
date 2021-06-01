@@ -21,12 +21,10 @@ public class Player : LivingEntity
 
 
 
-
         base.Attack("Enemy");
 
         targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         GameManager.instance.crossHair.transform.position = new Vector2(targetPosition.x,targetPosition.y);
-
 
 
     }
@@ -44,10 +42,14 @@ public class Player : LivingEntity
 
     protected override void Die()
     {
-        GameManager.CamShake(1f, 1f);
+        //GameManager.CamShake(1f, 1f);
         gameObject.SetActive(false);
+        GameManager.instance.playerGroup--;
+        if(GameManager.instance.playerGroup <= 0)
+        {
         GameManager.instance.crossHair.SetActive(false);
          Cursor.visible = true;
+        }
 
     }
 

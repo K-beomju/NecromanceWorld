@@ -29,7 +29,7 @@ public class ObjectPooling<T> where T : MonoBehaviour
         T t = m_queue.Peek(); // Queue 의 시작 부분에서 개체를 제거하지 않고 반환합니다.
         if (t.gameObject.activeSelf) //맨처음에 있는 원소조차 활성화되어있다면 큐가 전부 가용중이라는 뜻
         {
-            GameObject temp = GameObject.Instantiate(prefab, parent);
+            GameObject temp = GameObject.Instantiate(prefab,parent);
             t = temp.GetComponent<T>();
            // m_queue.Enqueue(t); //개체를 Queue의 끝 부분에 추가합니다.
         }

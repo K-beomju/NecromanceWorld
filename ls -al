@@ -1,0 +1,23 @@
+[33mcommit 253a389218bbce1c3682c6bf6deeecb9c5b3bad6[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Kimbeomju <64351062+K-beomju@users.noreply.github.com>
+Date:   Sun May 30 01:34:32 2021 +0900
+
+    수정
+
+[33mcommit 5cffe3fa705efe1b54ca36efc761ffc828315a3c[m
+Author: Kimbeomju <64351062+K-beomju@users.noreply.github.com>
+Date:   Sat May 29 23:15:45 2021 +0900
+
+    구조체 배열 ,리스트를 활용한 적 그룹 스포너
+
+[33mcommit 920b2036e096761ade0596c2e2a80deb35ca22e2[m
+Author: Kimbeomju <64351062+K-beomju@users.noreply.github.com>
+Date:   Sat May 29 01:59:10 2021 +0900
+
+    게임 매니저 , 시네머신 카메라 , 부모 클래스 기초 구현
+
+[33mcommit ac1356ae26443f99a0cba23048a003430736628b[m
+Author: Kimbeomju <64351062+K-beomju@users.noreply.github.com>
+Date:   Fri May 28 17:42:43 2021 +0900
+
+    Initial commit

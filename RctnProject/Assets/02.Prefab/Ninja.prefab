@@ -16,12 +16,12 @@ GameObject:
   - component: {fileID: 6932448399593241035}
   - component: {fileID: 6932448399593241047}
   m_Layer: 6
-  m_Name: Enemy
+  m_Name: Ninja
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6932448399593241032
 Transform:
   m_ObjectHideFlags: 0
@@ -30,8 +30,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6932448399593241042}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.7, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -5237827435021359831, guid: cdbf5c561aebde2438ffa5d0950f89f7, type: 3}
   m_Color: {r: 1, g: 0, b: 0.09911442, a: 1}
   m_FlipX: 0
@@ -125,7 +125,7 @@ Rigidbody2D:
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!70 &6932448399593241045
 CapsuleCollider2D:
@@ -155,10 +155,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 652eb05312189324f8c8d105bec83214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
-  startingHealth: 10
-  attackRange: 1
-  attackDamage: 1
+  startingHealth: 3
+  offset: {x: 0, y: 0, z: 0}
+  abilityData: {fileID: 11400000, guid: 0327153536ee6d34182d469b39087691, type: 2}
   player: {fileID: 6932448399593241047}
   enemy: {fileID: 6932448399593241035}
 --- !u!114 &6932448399593241047
@@ -173,7 +172,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 363f50d8185fe68428e88b39209b89b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
-  startingHealth: 100
-  attackRange: 1
-  attackDamage: 2
+  startingHealth: 0
+  offset: {x: 0, y: 0, z: 0}
+  abilityData: {fileID: 11400000, guid: 0327153536ee6d34182d469b39087691, type: 2}
