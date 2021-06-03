@@ -42,7 +42,7 @@ public class Player : LivingEntity
 
     protected override void Die()
     {
-        //GameManager.CamShake(1f, 1f);
+        GameManager.CamShake(1f, 1f);
         gameObject.SetActive(false);
         GameManager.instance.playerGroup--;
         if(GameManager.instance.playerGroup <= 0)

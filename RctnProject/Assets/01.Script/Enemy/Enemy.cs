@@ -7,17 +7,7 @@ public class Enemy : LivingEntity
     public Player player;
     public Enemy enemy;
 
-    private float reSetTime;
-    private float checkTime = 2f;
 
-
-
-
-    void OnEnable()
-    {
-
-       transform.position = ((new Vector2(Random.Range(-10,10),Random.Range(-10,10))) * Time.deltaTime);
-    }
 
 
 
@@ -25,33 +15,39 @@ public class Enemy : LivingEntity
     {
         base.Attack("Player");
 
-
-
-
         if (Input.GetMouseButton(1)) // 우클릭
         {
-            for (int i = 0; i <= GameManager.instance.enemyGroup; i++) // 몇번째 그룹인지 검사
+            if (dead)
             {
-                if (GameManager.instance.enemyStructs[i].list.Count == 0) // 그 그룹의 리스트가 비었다면
+                for (int i = 0; i <= GameManager.instance.enemyGroup; i++) // 몇번째 그룹인지 검사
                 {
-
-                    for (int j = 0; j <= GameManager.instance.enemyCount - 1; j++) // 그 그룹의 적 갯수만큼
+                    if (GameManager.instance.enemyStructs[i].list.Count == 0) // 그 그룹의 리스트가 비었다면
                     {
 
-                        anim.SetTrigger("Idle");
+                        for (int j = 0; j <= GameManager.instance.enemyCount - 1; j++) // 그 그룹의 적 갯수만큼
+                        {
 
-                        sprite.color = Color.white; // 플레리어 색상변환
+                            anim.SetTrigger("Idle");
 
-                        player.enabled = true; // 플레이어 스크립트 활성화
-                        capsule.enabled = true;
+                            sprite.color = Color.white; // 플레리어 색상변환
 
-                       // GameManager.CamShake(1f, 1f);
-                        Destroy(enemy);
+                            player.enabled = true; // 플레이어 스크립트 활성화
+                            capsule.enabled = true;
+                            dead = false;
+
+                            GameManager.CamShake(1f, 1f);
+                            Destroy(enemy);
+                        }
                     }
                 }
             }
         }
+
+
+
+
     }
+
 
     protected override void Die()
     {
@@ -65,7 +61,11 @@ public class Enemy : LivingEntity
 
         capsule.enabled = false;
 
+
     }
+
+
+
 
 
 }

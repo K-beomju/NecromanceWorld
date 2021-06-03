@@ -20,10 +20,10 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     protected bool dead;
     private float health;
     public float startingHealth;
-    // public float attackRange;
-    // public float attackDamage;
+
     public Vector3 offset;
     protected Vector3 attackPosition;
+    public AudioSource audioSource;
 
     [SerializeField]
     private AbilityData abilityData;
@@ -38,6 +38,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         rig = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
 
     }
 
@@ -85,8 +86,18 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     public void DAttack()
     {
+        audioSource.Play();
         if (hitCollider != null)
         {
+            if(hitCollider.transform.position.x  >= transform.position.x)
+            {
+                transform.localScale = new Vector2(0.9f, 0.9f);
+            }
+            else
+            {
+                 transform.localScale = new Vector2(-0.9f, 0.9f);
+            }
+
             LivingEntity target = hitCollider.transform.GetComponent<LivingEntity>();
             if (target != null)
             {
@@ -102,15 +113,19 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
 
 
-    public void OnDamage(float damage)
+    public  void OnDamage(float damage)
     {
         health -= damage;
+
         if (health <= 0)
         {
             Die();
 
         }
     }
+
+
+
 
     protected abstract void Die();
 
