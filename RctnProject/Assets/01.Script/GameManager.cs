@@ -14,8 +14,8 @@ public class GameManager : MonoBehaviour
     [Serializable]
     public struct EnemyStruct
     {
+        public Enemy[] enemy;
         public List<Enemy> list; // 몬스터의 수
-        public Enemy enemy;
     }
     public EnemyStruct[] enemyStructs = new EnemyStruct[10]; // 몬스터 그룹
 
@@ -34,74 +34,98 @@ public class GameManager : MonoBehaviour
     public GameObject[] enemyPrefab;
     private ObjectPooling<Enemy>[] enemyPool;
 
-    public CinemachineVirtualCamera myCinemachine;
+    public Transform[] spawnPoint;
 
+    public int spawn;
 
-
-
+    [Header("Status")]
+    public bool isRun;
 
     void Awake()
     {
 
-         myCinemachine = GetComponent<CinemachineVirtualCamera>();
+
         instance = this;
         Cursor.visible = false;
         enemyPool = new ObjectPooling<Enemy>[enemyPrefab.Length];
         for (int i = 0; i < enemyPrefab.Length; i++)
         {
-            enemyPrefab[i].gameObject.SetActive(false);
-            enemyPool[i] = new ObjectPooling<Enemy>(enemyPrefab[i], this.transform, 50);
-        }
 
+            enemyPrefab[i].gameObject.SetActive(false);
+            enemyPool[i] = new ObjectPooling<Enemy>(enemyPrefab[i], this.transform, 70);
+
+        }
 
     }
 
     protected void Start()
     {
+        spawn = 0;
         enemyGroup = 0;
-        enemyCount = 0;
         playerGroup = 5;
-        StartCoroutine(SpawnEnemys());
+        isRun = false;
+        if (enemyPrefab != null)
+        {
+            StartCoroutine(SpawnEnemys());
+        }
 
     }
-
-
 
 
 
     private IEnumerator SpawnEnemys()
     {
-            while (true)
+        while (true)
+        {
+            if (enemyGroup != 2)
             {
-                float randX = UnityEngine.Random.Range(-35, 30);
+                float randX = UnityEngine.Random.Range(-34, 29);
                 float randY = UnityEngine.Random.Range(-24, 12);
-                if (enemyPrefab != null)
-                {
-                    int randCount = UnityEngine.Random.Range(2, 5);
-                    enemyCount = randCount;
-                    for (int i = 0; i <= enemyCount; i++)
-                    {
-                        int t = UnityEngine.Random.Range(0, 360);
-                        enemyStructs[enemyGroup].enemy = enemyPool[0].GetOrCreate();
-                        enemyStructs[enemyGroup].enemy.transform.position = /*new Vector2(randX, randY) +*/ new Vector2(Mathf.Cos(t * 1), Mathf.Sin(t * 1));
-                        enemyStructs[enemyGroup].list.Add(enemyStructs[enemyGroup].enemy);
-                    }
+                int randCount = UnityEngine.Random.Range(2, 6);
+                enemyCount = randCount;
 
-                    if (enemyGroup >= 9)
-                    {
-                        enemyGroup = 0;
-                    }
-                    else
-                    {
-                        enemyGroup++;
-                    }
+
+                enemyStructs[enemyGroup].enemy = new Enemy[enemyCount];
+
+                for (int i = 0; i < enemyCount; i++)
+                {
+
+                    int t = UnityEngine.Random.Range(0, 360);
+
+                     enemyStructs[enemyGroup].list.Add(enemyStructs[enemyGroup].enemy[i] = enemyPool[0].GetOrCreate());
+                    enemyStructs[enemyGroup].enemy[i].transform.position =  new Vector2(spawnPoint[spawn].transform.position.x , spawnPoint[spawn].transform.position.y) +
+                      new Vector2(Mathf.Cos(t * 1), Mathf.Sin(t * 1));
+
                 }
-               yield return new WaitForSeconds(1000f);
+                enemyGroup++;
+
+                if(spawn >= 10)
+                {
+                    spawn = 0;
+                }
+                else
+                {
+                    spawn++;
+                }
+
+
+
             }
 
+            yield return new WaitForSeconds(0.2f);
 
-
+        }
     }
+
+
+
+
+
+
+
+
+
+
 
     public void Dead(Enemy _enemy)
     {

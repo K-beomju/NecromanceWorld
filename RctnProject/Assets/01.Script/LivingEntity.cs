@@ -47,7 +47,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         dead = false;
         moveSpeed = abilityData.MoveSpeed;
         health = startingHealth;
+
     }
+
+
+
 
     public void Rotate()
     {
@@ -89,13 +93,13 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         audioSource.Play();
         if (hitCollider != null)
         {
-            if(hitCollider.transform.position.x  >= transform.position.x)
+            if (hitCollider.transform.position.x >= transform.position.x)
             {
-                transform.localScale = new Vector2(0.9f, 0.9f);
+                transform.localScale = new Vector2(transform.localScale.x, transform.localScale.y);
             }
             else
             {
-                 transform.localScale = new Vector2(-0.9f, 0.9f);
+                transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
             }
 
             LivingEntity target = hitCollider.transform.GetComponent<LivingEntity>();
@@ -113,7 +117,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
 
 
-    public  void OnDamage(float damage)
+    public void OnDamage(float damage)
     {
         health -= damage;
 

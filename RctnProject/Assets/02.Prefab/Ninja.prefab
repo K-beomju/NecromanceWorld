@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 363f50d8185fe68428e88b39209b89b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingHealth: 0
+  startingHealth: 100
   offset: {x: 0, y: 0, z: 0}
   audioSource: {fileID: -6526556533695532692}
   abilityData: {fileID: 11400000, guid: 0327153536ee6d34182d469b39087691, type: 2}
@@ -190,7 +190,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 9ab48b0f54d42ac4197e289aecd1f744, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.246
   m_Pitch: 1
   Loop: 0
   Mute: 0
