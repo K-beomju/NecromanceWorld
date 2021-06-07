@@ -12,6 +12,7 @@ public class Player : LivingEntity
         if (Input.GetMouseButton(0))
         {
             TargetMove(); // 마우스 좌표로 움직이고 정규화 위치에 따라 방향전환
+             base.Rotate();
             anim.SetFloat("Speed", 1);
         }
         else
@@ -33,7 +34,7 @@ public class Player : LivingEntity
 
     public void TargetMove()
     {
-        base.Rotate();
+
         direction = (targetPosition - transform.position).normalized; // 마우스 좌표와 자기 위치의 거리를 정규화
 
     }
@@ -42,7 +43,7 @@ public class Player : LivingEntity
 
     protected override void Die()
     {
-        GameManager.CamShake(1f, 1f);
+        GameManager.CamShake(2f, 0.5f);
         gameObject.SetActive(false);
         GameManager.instance.playerGroup--;
         if(GameManager.instance.playerGroup <= 0)

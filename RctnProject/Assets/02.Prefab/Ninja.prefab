@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 6932448399593241042}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1, y: 1, z: 1}
-  m_LocalScale: {x: 0.9, y: 0.9, z: 0}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -158,7 +158,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 3
   offset: {x: 0, y: 0, z: 0}
-  audioSource: {fileID: 0}
   abilityData: {fileID: 11400000, guid: 0327153536ee6d34182d469b39087691, type: 2}
   player: {fileID: 6932448399593241047}
   enemy: {fileID: 6932448399593241035}
@@ -176,7 +175,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingHealth: 100
   offset: {x: 0, y: 0, z: 0}
-  audioSource: {fileID: -6526556533695532692}
   abilityData: {fileID: 11400000, guid: 0327153536ee6d34182d469b39087691, type: 2}
 --- !u!82 &-6526556533695532692
 AudioSource:

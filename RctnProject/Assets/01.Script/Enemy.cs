@@ -7,12 +7,14 @@ public class Enemy : LivingEntity
     public Player player;
     public Enemy enemy;
 
-    void OnEnable()
-    {
-      // StartCoroutine(MoveEnemys());
-    }
+     protected override void Start()
+     {
+          StartCoroutine(MoveEnemys());
+        StartCoroutine(randomPosition());
+     }
 
-      public IEnumerator MoveEnemys()
+
+    public IEnumerator MoveEnemys()
     {
         while (!dead)
         {
@@ -25,9 +27,20 @@ public class Enemy : LivingEntity
 
                     if (GameManager.instance.enemyStructs[i].enemy[j] != null)
                     {
+                        if( GameManager.instance.moveVector == new Vector2(0,0))
+                        {
+                            anim.SetFloat("Speed", 0);
+                        }
+                        if(GameManager.instance.x < 0)
+                        {
+                            sprite.flipX = true;
+                        }
+                        else
+                        {
+                            sprite.flipX = false;
+                        }
                         GameManager.instance.isRun = true;
-
-                        GameManager.instance.enemyStructs[i].enemy[j].rig.velocity = (new Vector2(1, 1) * 1);
+                        GameManager.instance.enemyStructs[i].enemy[j].transform.Translate((GameManager.instance.moveVector)* moveSpeed * Time.deltaTime);
 
 
 
@@ -36,7 +49,6 @@ public class Enemy : LivingEntity
                 }
 
             }
-
 
             yield return null;
 
@@ -48,6 +60,8 @@ public class Enemy : LivingEntity
 
     void Update()
     {
+
+
         base.Attack("Player");
 
 
@@ -59,21 +73,23 @@ public class Enemy : LivingEntity
                 {
                     if (GameManager.instance.enemyStructs[i].list.Count == 0) // 그 그룹의 리스트가 비었다면
                     {
-
-                        for (int j = 0; j <= GameManager.instance.enemyCount - 1; j++) // 그 그룹의 적 갯수만큼
+                        for (int j = 0; j < GameManager.instance.enemyCount - 1; j++) // 그 그룹의 적 갯수만큼
                         {
+                            if (GameManager.instance.enemyStructs[i].enemy[j] == dead)
+                            {
 
+                                anim.SetTrigger("Idle");
 
-                            anim.SetTrigger("Idle");
+                                sprite.color = Color.white; // 플레리어 색상변환
 
-                            sprite.color = Color.white; // 플레리어 색상변환
+                                player.enabled = true; // 플레이어 스크립트 활성화
+                                capsule.enabled = true;
+                                dead = false;
+                                Destroy(enemy);
 
-                            player.enabled = true; // 플레이어 스크립트 활성화
-                            capsule.enabled = true;
-                            dead = false;
-                            Destroy(enemy);
+                                GameManager.CamShake(2f, 0.5f);
+                            }
 
-                            GameManager.CamShake(1f, 1f);
 
                         }
                     }
@@ -83,11 +99,12 @@ public class Enemy : LivingEntity
 
 
 
-        if(GameManager.instance.isRun)
+
+        if (GameManager.instance.isRun)
         {
             anim.SetFloat("Speed", 1);
         }
-         else
+        else
         {
             anim.SetFloat("Speed", 0);
         }
@@ -100,17 +117,19 @@ public class Enemy : LivingEntity
 
     protected override void Die()
     {
-
+          StopAllCoroutines();
         dead = true;
         anim.SetBool("isAttack", false);
         anim.SetTrigger("Dead");
 
-        GameManager.instance.Dead(this); // 적 그룹 리스트에서 삭제
         gameObject.layer = 3; // 플레이어 레이어
         GameManager.instance.playerGroup++;  // 플레이어 그룹 증가
 
+
         capsule.enabled = false;
         GameManager.instance.isRun = false;
+        GameManager.instance.Dead(this); // 적 그룹 리스트에서 삭제
+
 
     }
 

@@ -10,12 +10,13 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-
     [Serializable]
     public struct EnemyStruct
     {
         public Enemy[] enemy;
         public List<Enemy> list; // 몬스터의 수
+
+
     }
     public EnemyStruct[] enemyStructs = new EnemyStruct[10]; // 몬스터 그룹
 
@@ -27,19 +28,32 @@ public class GameManager : MonoBehaviour
     public int enemyCount; // 적 그룹안에 있는 적들의 갯수
 
 
-    public GameObject crossHair;
-    public CameraEffect camEffect;
-
-
+    [Header("Pooling Objs")]
     public GameObject[] enemyPrefab;
-    private ObjectPooling<Enemy>[] enemyPool;
-
-    public Transform[] spawnPoint;
-
-    public int spawn;
+    public GameObject hitEffect;
+    public GameObject deadTxt;
 
     [Header("Status")]
     public bool isRun;
+
+    public GameObject crossHair;
+
+
+
+    public CameraEffect camEffect;
+    public RectTransform canvas;
+
+    public Transform[] spawnPoint;
+    public int spawn;
+
+
+
+    private ObjectPooling<Enemy>[] enemyPool;
+    private ObjectPooling<EffectObject> hitPool;
+    private ObjectPooling<Uipanel> deadPool;
+
+    public Vector2 moveVector;
+    public int x;
 
     void Awake()
     {
@@ -47,6 +61,10 @@ public class GameManager : MonoBehaviour
 
         instance = this;
         Cursor.visible = false;
+
+
+        hitPool = new ObjectPooling<EffectObject>(hitEffect, this.transform, 10);
+        deadPool = new ObjectPooling<Uipanel>(deadTxt, canvas, 10);
         enemyPool = new ObjectPooling<Enemy>[enemyPrefab.Length];
         for (int i = 0; i < enemyPrefab.Length; i++)
         {
@@ -55,6 +73,8 @@ public class GameManager : MonoBehaviour
             enemyPool[i] = new ObjectPooling<Enemy>(enemyPrefab[i], this.transform, 70);
 
         }
+
+
 
     }
 
@@ -69,6 +89,7 @@ public class GameManager : MonoBehaviour
             StartCoroutine(SpawnEnemys());
         }
 
+
     }
 
 
@@ -77,14 +98,12 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            if (enemyGroup != 2)
+            if (enemyGroup != 1)
             {
-                float randX = UnityEngine.Random.Range(-34, 29);
-                float randY = UnityEngine.Random.Range(-24, 12);
+                //float randX = UnityEngine.Random.Range(-34, 29);
+                // float randY = UnityEngine.Random.Range(-24, 12);
                 int randCount = UnityEngine.Random.Range(2, 6);
                 enemyCount = randCount;
-
-
                 enemyStructs[enemyGroup].enemy = new Enemy[enemyCount];
 
                 for (int i = 0; i < enemyCount; i++)
@@ -92,14 +111,14 @@ public class GameManager : MonoBehaviour
 
                     int t = UnityEngine.Random.Range(0, 360);
 
-                     enemyStructs[enemyGroup].list.Add(enemyStructs[enemyGroup].enemy[i] = enemyPool[0].GetOrCreate());
-                    enemyStructs[enemyGroup].enemy[i].transform.position =  new Vector2(spawnPoint[spawn].transform.position.x , spawnPoint[spawn].transform.position.y) +
+                    enemyStructs[enemyGroup].list.Add(enemyStructs[enemyGroup].enemy[i] = enemyPool[0].GetOrCreate());
+                    enemyStructs[enemyGroup].enemy[i].transform.position = new Vector2(spawnPoint[spawn].transform.position.x, spawnPoint[spawn].transform.position.y) +
                       new Vector2(Mathf.Cos(t * 1), Mathf.Sin(t * 1));
 
                 }
                 enemyGroup++;
 
-                if(spawn >= 10)
+                if (spawn >= 10)
                 {
                     spawn = 0;
                 }
@@ -112,17 +131,10 @@ public class GameManager : MonoBehaviour
 
             }
 
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(10f);
 
         }
     }
-
-
-
-
-
-
-
 
 
 
@@ -143,5 +155,15 @@ public class GameManager : MonoBehaviour
     public static void CamShake(float intense, float during)
     {
         instance.camEffect.SetShake(intense, during);
+    }
+
+    public static EffectObject GetHitEffect()
+    {
+        return instance.hitPool.GetOrCreate();
+    }
+
+    public static Uipanel GetDeadText() // 적 HP bar
+    {
+        return instance.deadPool.GetOrCreate();
     }
 }

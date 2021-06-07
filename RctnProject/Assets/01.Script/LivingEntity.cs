@@ -18,18 +18,25 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     protected float moveSpeed;
     protected bool dead;
-    private float health;
+    protected bool bAttack;
+    protected float health;
     public float startingHealth;
 
-    public Vector3 offset;
+    public Vector3 offset; // 위치 보정
+    private AudioSource attackAudio;
     protected Vector3 attackPosition;
-    public AudioSource audioSource;
+
+
+
+
+
 
     [SerializeField]
     private AbilityData abilityData;
     public AbilityData ZombieData { set { abilityData = value; } }
 
-
+    private EffectObject hitEffect;
+    private Uipanel deadTxt;
 
 
     protected void Awake()
@@ -38,15 +45,32 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         rig = GetComponent<Rigidbody2D>();
-        audioSource = GetComponent<AudioSource>();
+        attackAudio = GetComponent<AudioSource>();
 
     }
 
-    protected void Start()
+    protected virtual void Start()
     {
+        bAttack = false;
         dead = false;
         moveSpeed = abilityData.MoveSpeed;
         health = startingHealth;
+
+    }
+
+     public IEnumerator randomPosition()
+    {
+        while (true)
+        {
+        int time = UnityEngine.Random.Range(3,10);
+         GameManager.instance.x = UnityEngine.Random.Range(-1,2);
+
+        int y = UnityEngine.Random.Range(-1,2);
+
+        GameManager.instance.moveVector = new Vector2( GameManager.instance.x,y);
+        yield return new WaitForSeconds(time);
+
+        }
 
     }
 
@@ -56,17 +80,26 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     public void Rotate()
     {
         transform.Translate(normalizedDirection * moveSpeed * Time.deltaTime);
+        if(bAttack)
+        {
+
+        }
+        else
+        {
+            moveSpeed = abilityData.MoveSpeed;
+        }
 
 
         normalizedDirection = new Vector2(direction.x, direction.y);
         if (normalizedDirection.x > 0)
         {
-            //SpriteRender가져와서 FlipX해도 가능
-            transform.localScale = new Vector2(0.9f, 0.9f);
+
+             sprite.flipX = false;
         }
         else
         {
-            transform.localScale = new Vector2(-0.9f, 0.9f);
+            sprite.flipX = true;
+
         }
     }
 
@@ -76,12 +109,12 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         attackPosition = transform.position + offset;
         if (hitCollider = Physics2D.OverlapCircle(attackPosition, abilityData.AttackRange, layerMask))
         {
-
+            bAttack = true;
             anim.SetBool("isAttack", true);
         }
         else
         {
-            moveSpeed = abilityData.MoveSpeed;
+              bAttack = false;
             anim.SetBool("isAttack", false);
         }
     }
@@ -90,22 +123,21 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     public void DAttack()
     {
-        audioSource.Play();
+        attackAudio.Play();
         if (hitCollider != null)
         {
             if (hitCollider.transform.position.x >= transform.position.x)
             {
-                transform.localScale = new Vector2(transform.localScale.x, transform.localScale.y);
+               sprite.flipX = false;
             }
             else
             {
-                transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y);
+                sprite.flipX = true;
             }
 
             LivingEntity target = hitCollider.transform.GetComponent<LivingEntity>();
             if (target != null)
             {
-                moveSpeed = 3;
                 target.OnDamage(abilityData.AttackDamage);
             }
 
@@ -120,11 +152,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     public void OnDamage(float damage)
     {
         health -= damage;
+        OnHitEffect();
 
         if (health <= 0)
         {
             Die();
-
         }
     }
 
@@ -133,9 +165,24 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     protected abstract void Die();
 
+
     public void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(attackPosition, abilityData.AttackRange);
     }
+
+    public void OnHitEffect()
+    {
+        hitEffect = GameManager.GetHitEffect();
+        hitEffect.SetPositionData(new Vector2(transform.position.x, transform.position.y), Quaternion.Euler(0, 0, Random.Range(0, 360f)));
+    }
+
+    public void OnDeadTxt(GameObject gameObject)
+    {
+        deadTxt = GameManager.GetDeadText();
+        deadTxt.SetPosition(gameObject.transform.position);
+    }
+
+
 
 }
