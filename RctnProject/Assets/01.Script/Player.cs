@@ -11,38 +11,37 @@ public class Player : LivingEntity
     {
         if (Input.GetMouseButton(0))
         {
-            TargetMove(); // 마우스 좌표로 움직이고 정규화 위치에 따라 방향전환
-             base.Rotate();
-            anim.SetFloat("Speed", 1);
+            Rotate();
         }
-        else
-        {
-            anim.SetFloat("Speed", 0);
-        }
-
-
-
         base.Attack("Enemy");
-
         targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         GameManager.instance.crossHair.transform.position = new Vector2(targetPosition.x,targetPosition.y);
 
 
     }
 
-
-
-    public void TargetMove()
+   public void Rotate()
     {
 
-        direction = (targetPosition - transform.position).normalized; // 마우스 좌표와 자기 위치의 거리를 정규화
+        transform.Translate(normalizedDirection * moveSpeed * Time.deltaTime);
+        direction = (targetPosition - transform.position).normalized;
+        transform.Translate(normalizedDirection * moveSpeed * Time.deltaTime);
+        normalizedDirection = new Vector2(direction.x, direction.y);
+        if (normalizedDirection.x > 0)
+        {
 
+            sprite.flipX = false;
+        }
+        else
+        {
+            sprite.flipX = true;
+
+        }
     }
-
-
 
     protected override void Die()
     {
+          OnNecroEffect(3);
         GameManager.CamShake(2f, 0.5f);
         gameObject.SetActive(false);
         GameManager.instance.playerGroup--;
@@ -57,6 +56,17 @@ public class Player : LivingEntity
 
 
 
+
+
+
+
+
+     // public void AddExplosion(Vector3 pos , float power)
+    // {
+    //     Vector3 dir = transform.position - pos;
+    //     power *= 1/dir.sqrMagnitude;
+    //     rig.AddForce(dir.normalized * power, ForceMode2D.Impulse);
+    // }
 
 
 }

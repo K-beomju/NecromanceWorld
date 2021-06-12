@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class EffectObject : MonoBehaviour
 {
-    public void SetPositionData(Vector3 position, Quaternion rot)
+    public void SetPositionData(Vector3 position, Quaternion rot )
     {
         transform.position = position;
         transform.rotation = rot;
     }
+
 
     public void SetDeactive()
     {

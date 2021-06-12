@@ -6,9 +6,11 @@ using Cinemachine;
 using UnityEngine.UI;
 
 
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+
 
     [Serializable]
     public struct EnemyStruct
@@ -30,8 +32,9 @@ public class GameManager : MonoBehaviour
 
     [Header("Pooling Objs")]
     public GameObject[] enemyPrefab;
-    public GameObject hitEffect;
+    public GameObject[] effect;
     public GameObject deadTxt;
+
 
     [Header("Status")]
     public bool isRun;
@@ -49,8 +52,9 @@ public class GameManager : MonoBehaviour
 
 
     private ObjectPooling<Enemy>[] enemyPool;
-    private ObjectPooling<EffectObject> hitPool;
+    private ObjectPooling<EffectObject>[] effectPool;
     private ObjectPooling<Uipanel> deadPool;
+
 
     public Vector2 moveVector;
     public int x;
@@ -63,7 +67,12 @@ public class GameManager : MonoBehaviour
         Cursor.visible = false;
 
 
-        hitPool = new ObjectPooling<EffectObject>(hitEffect, this.transform, 10);
+        effectPool = new ObjectPooling<EffectObject>[effect.Length];
+        for (int i = 0; i < effect.Length; i++)
+        {
+            effectPool[i] = new ObjectPooling<EffectObject>(effect[i], this.transform, 10);
+        }
+
         deadPool = new ObjectPooling<Uipanel>(deadTxt, canvas, 10);
         enemyPool = new ObjectPooling<Enemy>[enemyPrefab.Length];
         for (int i = 0; i < enemyPrefab.Length; i++)
@@ -118,6 +127,7 @@ public class GameManager : MonoBehaviour
                 }
                 enemyGroup++;
 
+
                 if (spawn >= 10)
                 {
                     spawn = 0;
@@ -131,7 +141,7 @@ public class GameManager : MonoBehaviour
 
             }
 
-            yield return new WaitForSeconds(10f);
+            yield return new WaitForSeconds(2f);
 
         }
     }
@@ -157,9 +167,9 @@ public class GameManager : MonoBehaviour
         instance.camEffect.SetShake(intense, during);
     }
 
-    public static EffectObject GetHitEffect()
+    public static EffectObject GetHitEffect(int i)
     {
-        return instance.hitPool.GetOrCreate();
+        return instance.effectPool[i].GetOrCreate();
     }
 
     public static Uipanel GetDeadText() // 적 HP bar
