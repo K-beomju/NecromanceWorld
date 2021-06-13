@@ -32,11 +32,9 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
 
 
-
-
     [SerializeField]
     private AbilityData abilityData;
-    public AbilityData ZombieData { set { abilityData = value; } }
+    public AbilityData AbilityData { set { abilityData = value; } }
 
     private EffectObject hitEffect;
     private Uipanel deadTxt;
@@ -44,6 +42,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     protected void Awake()
     {
+
         circle = GetComponent<CircleCollider2D>();
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
@@ -63,27 +62,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     protected virtual void Start()
     {
+
         isAttack = false;
         isDead = false;
-
-
     }
 
-     public IEnumerator randomPosition()
-    {
-        while (true)
-        {
-        int time = UnityEngine.Random.Range(5,11);
-         GameManager.instance.x = UnityEngine.Random.Range(-1,2);
-         int y = UnityEngine.Random.Range(-1,2);
-
-
-        GameManager.instance.moveVector = new Vector2( GameManager.instance.x,y);
-        yield return new WaitForSeconds(time);
-
-        }
-
-    }
 
 
     public void Attack(string targetName)
@@ -92,13 +75,15 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         attackPosition = transform.position + offset;
         if (hitCollider = Physics2D.OverlapCircle(attackPosition, attackRange, layerMask))
         {
+            moveSpeed = 0.55f;
+           anim.SetBool("Attack", true);
             isAttack = true;
-            anim.SetBool("isAttack", true);
         }
         else
         {
-              isAttack = false;
-            anim.SetBool("isAttack", false);
+            moveSpeed = abilityData.MoveSpeed;
+            anim.SetBool("Attack", false);
+            isAttack = false;
         }
     }
 
@@ -111,11 +96,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         {
             if (hitCollider.transform.position.x >= transform.position.x)
             {
-               sprite.flipX = false;
+               transform.localScale = new Vector3(1,1,1);
             }
             else
             {
-                sprite.flipX = true;
+                transform.localScale = new Vector3(-1,1,1);
             }
 
             LivingEntity target = hitCollider.transform.GetComponent<LivingEntity>();
@@ -132,7 +117,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
 
 
-    public void OnDamage(float damage)
+    public void  OnDamage(float damage)
     {
         health -= damage;
         OnHitEffect();
@@ -172,6 +157,22 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     }
     #endregion
 
+
+        public IEnumerator randomPosition()
+    {
+        while (true)
+        {
+        int time = UnityEngine.Random.Range(5,11);
+         GameManager.instance.x = UnityEngine.Random.Range(-1,2);
+         int y = UnityEngine.Random.Range(-1,2);
+
+
+        GameManager.instance.moveVector = new Vector2( GameManager.instance.x,y);
+        yield return new WaitForSeconds(time);
+
+        }
+
+    }
 
 
 

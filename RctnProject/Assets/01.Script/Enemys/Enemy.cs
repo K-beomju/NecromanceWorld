@@ -67,12 +67,14 @@ public class Enemy : LivingEntity
     {
 
 
-        base.Attack("Player");
-
         if(hitCollider)
         {
-            transform.position = Vector2.MoveTowards(transform.position , hitCollider.transform.position ,Speed * Time.deltaTime);
+        transform.position = Vector2.MoveTowards(transform.position , hitCollider.transform.position ,0.55f * Time.deltaTime);
+
         }
+
+        base.Attack("Player");
+
 
 
         if (Input.GetMouseButton(1)) // 우클릭
@@ -88,18 +90,19 @@ public class Enemy : LivingEntity
                             if (GameManager.instance.enemyStructs[i].enemy[j] == isDead)
                             {
 
-                                anim.SetTrigger("Idle");
-
                                 sprite.color = Color.white; // 플레리어 색상변환
                                 OnNecroEffect(1);
-                                // panel = GameManager.GetDeadText();
-                                // panel.SetPosition(new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z));
                                 player.enabled = true; // 플레이어 스크립트 활성화
                                 circle.enabled = true;
+                                GameManager.instance.playerGroup += j;
                                 isDead = false;
                                 Destroy(enemy);
-
                                 GameManager.CamShake(2f, 0.5f);
+
+
+                               // anim.SetTrigger("Idle");
+                                // panel = GameManager.GetDeadText();
+                                // panel.SetPosition(new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z));
                             }
 
 
@@ -131,17 +134,16 @@ public class Enemy : LivingEntity
     {
         StopAllCoroutines();
         isDead = true;
-        anim.SetBool("isAttack", false);
-        anim.SetTrigger("Dead");
+      //  gameObject.SetActive(false);
         Speed = 0;
         gameObject.layer = 3; // 플레이어 레이어
-        GameManager.instance.playerGroup++;  // 플레이어 그룹 증가
+     // 플레이어 그룹 증가
         OnNecroEffect(2);
 
         circle.enabled = false;
         GameManager.instance.isRun = false;
         GameManager.instance.Dead(this); // 적 그룹 리스트에서 삭제
-        GameManager.instance.isRun = false;
+
 
     }
 

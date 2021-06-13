@@ -12,6 +12,11 @@ public class Player : LivingEntity
         if (Input.GetMouseButton(0))
         {
             Rotate();
+            anim.SetFloat("Speed", 1);
+        }
+        else
+        {
+            anim.SetFloat("Speed", 0);
         }
         base.Attack("Enemy");
         targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -23,20 +28,16 @@ public class Player : LivingEntity
    public void Rotate()
     {
 
+
         transform.Translate(normalizedDirection * moveSpeed * Time.deltaTime);
         direction = (targetPosition - transform.position).normalized;
         transform.Translate(normalizedDirection * moveSpeed * Time.deltaTime);
         normalizedDirection = new Vector2(direction.x, direction.y);
         if (normalizedDirection.x > 0)
-        {
-
-            sprite.flipX = false;
-        }
+           transform.localScale = new Vector3(1,1,1);
         else
-        {
-            sprite.flipX = true;
+            transform.localScale = new Vector3(-1,1,1);
 
-        }
     }
 
     protected override void Die()

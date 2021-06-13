@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7ce2576673d8f74f892e4c177c391b3, type: 3}
   m_Name: Ability Data
   m_EditorClassIdentifier: 
-  health: 3
-  attackRange: 3
-  attackDamage: 123
-  moveSpeed: 3
+  health: 10
+  attackRange: 1
+  attackDamage: 1
+  moveSpeed: 2
