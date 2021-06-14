@@ -31,23 +31,28 @@ public class GameManager : MonoBehaviour
 
 
     [Header("Pooling Objs")]
+    [Space(45)]
     public GameObject[] enemyPrefab;
     public GameObject[] effect;
     public GameObject deadTxt;
 
+    public RectTransform canvas;
 
     [Header("Status")]
+    [Space(45)]
+    [HideInInspector]
     public bool isRun;
+    public float moveSpeed;
 
     public GameObject crossHair;
 
 
 
-    public CameraEffect camEffect;
-    public RectTransform canvas;
 
     public Transform[] spawnPoint;
     public int spawn;
+
+
 
 
 
@@ -55,9 +60,13 @@ public class GameManager : MonoBehaviour
     private ObjectPooling<EffectObject>[] effectPool;
     private ObjectPooling<Uipanel> deadPool;
 
+    public CinemachineTargetGroup cinemachine;
+    public CameraEffect camEffect;
 
-    public Vector2 moveVector;
-    public int x;
+
+
+
+
 
     void Awake()
     {
@@ -89,9 +98,13 @@ public class GameManager : MonoBehaviour
 
     protected void Start()
     {
-        spawn = 0;
+        moveSpeed = 1;
         enemyGroup = 0;
         playerGroup = 5;
+        enemyCount = 0;
+        spawn = 0;
+
+
         isRun = false;
         if (enemyPrefab != null)
         {
@@ -107,11 +120,9 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            if (enemyGroup != 1)
+            if (enemyGroup != 2)
             {
-                //float randX = UnityEngine.Random.Range(-34, 29);
-                // float randY = UnityEngine.Random.Range(-24, 12);
-                int randCount = UnityEngine.Random.Range(2, 6);
+                int randCount = UnityEngine.Random.Range(playerGroup - 3, playerGroup + 1);
                 enemyCount = randCount;
                 enemyStructs[enemyGroup].enemy = new Enemy[enemyCount];
 
@@ -125,17 +136,13 @@ public class GameManager : MonoBehaviour
                       new Vector2(Mathf.Cos(t * 1), Mathf.Sin(t * 1));
 
                 }
+               StartCoroutine(GroupMove(enemyGroup, enemyCount));
                 enemyGroup++;
 
 
-                if (spawn >= 10)
-                {
-                    spawn = 0;
-                }
-                else
-                {
-                    spawn++;
-                }
+
+                spawn++;
+
 
 
 
@@ -146,6 +153,28 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private IEnumerator GroupMove(int enemyGroup , int enemyCounts)
+    {
+
+         while (true)
+         {
+            for (int j = 0; j < enemyCounts; j++)
+             {
+                 if(GameManager.instance.enemyStructs[enemyGroup].enemy[j] != null)
+                 {
+
+                    int randX = UnityEngine.Random.Range(-20,20);
+                    int randY = UnityEngine.Random.Range(-10,10);
+                 GameManager.instance.enemyStructs[enemyGroup].enemy[j].transform.position
+                 =  Vector2.MoveTowards(GameManager.instance.enemyStructs[enemyGroup].enemy[j].transform.position,
+                 new Vector2(randX,randY).normalized, moveSpeed * Time.deltaTime);
+
+                 }
+
+             }
+            yield return null;
+        }
+    }
 
 
 
@@ -159,9 +188,6 @@ public class GameManager : MonoBehaviour
     }
 
 
-
-
-
     public static void CamShake(float intense, float during)
     {
         instance.camEffect.SetShake(intense, during);
@@ -172,8 +198,13 @@ public class GameManager : MonoBehaviour
         return instance.effectPool[i].GetOrCreate();
     }
 
-    public static Uipanel GetDeadText() // 적 HP bar
+    public static Uipanel GetDeadText()
     {
         return instance.deadPool.GetOrCreate();
     }
+
+
+
+
+
 }

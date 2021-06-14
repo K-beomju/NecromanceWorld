@@ -9,6 +9,7 @@ public class Player : LivingEntity
 
     void Update()
     {
+
         if (Input.GetMouseButton(0))
         {
             Rotate();
@@ -43,14 +44,15 @@ public class Player : LivingEntity
     protected override void Die()
     {
           OnNecroEffect(3);
-        GameManager.CamShake(2f, 0.5f);
+        GameManager.CamShake(1f, 0.5f);
         gameObject.SetActive(false);
-        GameManager.instance.playerGroup--;
-        if(GameManager.instance.playerGroup <= 0)
-        {
-        GameManager.instance.crossHair.SetActive(false);
-         Cursor.visible = true;
-        }
+
+        // if(GameManager.instance.playerGroup <= 0)
+        // {
+        // GameManager.instance.crossHair.SetActive(false);
+        //  Cursor.visible = true;
+        // }
+        GameManager.instance.cinemachine.RemoveMember(this.gameObject.transform);
 
     }
 

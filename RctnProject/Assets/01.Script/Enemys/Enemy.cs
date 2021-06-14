@@ -7,57 +7,12 @@ public class Enemy : LivingEntity
     public Player player;
     public Enemy enemy;
     private Uipanel panel;
-    private float Speed = 0.55f;
+
 
     protected override void Start()
     {
-       // StartCoroutine(MoveEnemys());
-       // StartCoroutine(randomPosition());
-    }
-
-
-    public IEnumerator MoveEnemys()
-    {
-        while (!isDead && this.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        {
-
-            if (!isAttack)
-            {
-                for (int i = 0; i < GameManager.instance.enemyGroup; i++) // 몇번째 그룹인지 검사
-                {
-                    for (int j = 0; j < GameManager.instance.enemyStructs[i].list.Count; j++)
-                    {
-
-                        if (GameManager.instance.enemyStructs[i].enemy[j] != null)
-                        {
-                            if (GameManager.instance.moveVector == new Vector2(0, 0))
-                            {
-                                anim.SetFloat("Speed", 0);
-                            }
-                            if (GameManager.instance.x < 0)
-                            {
-                                sprite.flipX = true;
-                            }
-                            else
-                            {
-                                sprite.flipX = false;
-                            }
-                            GameManager.instance.isRun = true;
-
-                            GameManager.instance.enemyStructs[i].enemy[j].transform.Translate((GameManager.instance.moveVector).normalized * Speed * Time.deltaTime);
-                        }
-                    }
-
-                }
-            }
-            else{
-
-            }
-
-
-            yield return null;
-
-        }
+        isDead = false;
+        isAttack = false;
 
     }
 
@@ -65,54 +20,40 @@ public class Enemy : LivingEntity
 
     void Update()
     {
-
-
-        if(hitCollider)
-        {
-        transform.position = Vector2.MoveTowards(transform.position , hitCollider.transform.position ,0.55f * Time.deltaTime);
-
-        }
-
         base.Attack("Player");
 
-
-
-        if (Input.GetMouseButton(1)) // 우클릭
+        if (Input.GetMouseButton(1) && isDead) // 우클릭
         {
-            if (isDead)
+            for (int i = 0; i < GameManager.instance.enemyGroup; i++) // 몇번째 그룹인지 검사
             {
-                for (int i = 0; i < GameManager.instance.enemyGroup; i++) // 몇번째 그룹인지 검사
+                if (GameManager.instance.enemyStructs[i].list.Count == 0) // 그 그룹의 리스트가 비었다면
                 {
-                    if (GameManager.instance.enemyStructs[i].list.Count == 0) // 그 그룹의 리스트가 비었다면
+                    for (int j = 0; j < GameManager.instance.enemyCount; j++) // 그 그룹의 적 갯수만큼
                     {
-                        for (int j = 0; j < GameManager.instance.enemyCount - 1; j++) // 그 그룹의 적 갯수만큼
+                        if (GameManager.instance.enemyStructs[i].enemy[j] == isDead)
                         {
-                            if (GameManager.instance.enemyStructs[i].enemy[j] == isDead)
-                            {
 
-                                sprite.color = Color.white; // 플레리어 색상변환
-                                OnNecroEffect(1);
-                                player.enabled = true; // 플레이어 스크립트 활성화
-                                circle.enabled = true;
-                                GameManager.instance.playerGroup += j;
-                                isDead = false;
-                                Destroy(enemy);
-                                GameManager.CamShake(2f, 0.5f);
+                            sprite.color = Color.white; // 플레리어 색상변환
 
+                            OnNecroEffect(1);
+                            player.enabled = true; // 플레이어 스크립트 활성화
+                            circle.enabled = true;
 
-                               // anim.SetTrigger("Idle");
-                                // panel = GameManager.GetDeadText();
-                                // panel.SetPosition(new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z));
-                            }
+                            isDead = false;
+
+                            Destroy(enemy);
+                            GameManager.CamShake(3f, 0.5f);
+                            GameManager.instance.cinemachine.AddMember(this.gameObject.transform, 1, 0);
+
 
 
                         }
+
+
                     }
                 }
             }
         }
-
-
 
 
         if (GameManager.instance.isRun)
@@ -124,25 +65,30 @@ public class Enemy : LivingEntity
             anim.SetFloat("Speed", 0);
         }
 
-
-
-
     }
+
+
+
+
+
 
 
     protected override void Die()
     {
-        StopAllCoroutines();
-        isDead = true;
-      //  gameObject.SetActive(false);
-        Speed = 0;
-        gameObject.layer = 3; // 플레이어 레이어
-     // 플레이어 그룹 증가
-        OnNecroEffect(2);
 
+        isDead = true;
+
+
+        GameManager.instance.moveSpeed = 0;
+        gameObject.layer = 3; // 플레이어 레이어
+                              // 플레이어 그룹 증가
+        OnNecroEffect(2);
+        sprite.color = Color.red;
         circle.enabled = false;
-        GameManager.instance.isRun = false;
         GameManager.instance.Dead(this); // 적 그룹 리스트에서 삭제
+
+
+
 
 
     }

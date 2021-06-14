@@ -6,6 +6,8 @@ using UnityEngine;
 public abstract class LivingEntity : MonoBehaviour, IDamageable
 {
     protected SpriteRenderer sprite;
+
+
     protected Animator anim;
     protected Rigidbody2D rig;
     protected CircleCollider2D circle;
@@ -16,7 +18,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     protected Collider2D hitCollider;
 
 
-    protected bool isDead;
+    public bool isDead;
     protected bool isAttack;
 
     protected float health;
@@ -45,10 +47,12 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
         circle = GetComponent<CircleCollider2D>();
         anim = GetComponent<Animator>();
-        sprite = GetComponent<SpriteRenderer>();
+
+       sprite = GetComponentInChildren<SpriteRenderer>();
         rig = GetComponent<Rigidbody2D>();
         attackAudio = GetComponent<AudioSource>();
         SetAbility();
+
 
 
     }
@@ -63,8 +67,6 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     protected virtual void Start()
     {
 
-        isAttack = false;
-        isDead = false;
     }
 
 
@@ -73,17 +75,20 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     {
         int layerMask = 1 << LayerMask.NameToLayer(targetName);
         attackPosition = transform.position + offset;
-        if (hitCollider = Physics2D.OverlapCircle(attackPosition, attackRange, layerMask))
+        if ((hitCollider = Physics2D.OverlapCircle(attackPosition, attackRange, layerMask)) && !isDead )
         {
             moveSpeed = 0.55f;
-           anim.SetBool("Attack", true);
+             transform.position = Vector2.MoveTowards(transform.position, hitCollider.transform.position, moveSpeed * Time.deltaTime);
+            anim.SetBool("Attack", true);
             isAttack = true;
+
         }
         else
         {
             moveSpeed = abilityData.MoveSpeed;
             anim.SetBool("Attack", false);
             isAttack = false;
+
         }
     }
 
@@ -96,14 +101,13 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         {
             if (hitCollider.transform.position.x >= transform.position.x)
             {
-               transform.localScale = new Vector3(1,1,1);
+                transform.localScale = new Vector3(1, 1, 1);
             }
             else
             {
-                transform.localScale = new Vector3(-1,1,1);
+                transform.localScale = new Vector3(-1, 1, 1);
             }
-
-            LivingEntity target = hitCollider.transform.GetComponent<LivingEntity>();
+            LivingEntity target = hitCollider.gameObject.GetComponent<LivingEntity>();
             if (target != null)
             {
                 target.OnDamage(1);
@@ -117,7 +121,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
 
 
-    public void  OnDamage(float damage)
+    public void OnDamage(float damage)
     {
         health -= damage;
         OnHitEffect();
@@ -135,7 +139,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     public void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(attackPosition,attackRange);
+        Gizmos.DrawWireSphere(attackPosition, attackRange);
     }
 
     #region 풀링 오브젝트
@@ -144,7 +148,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         hitEffect = GameManager.GetHitEffect(0);
         hitEffect.SetPositionData(transform.position, Quaternion.Euler(0, 0, Random.Range(0, 360f)));
     }
-      public void OnNecroEffect(int i)
+    public void OnNecroEffect(int i)
     {
         hitEffect = GameManager.GetHitEffect(i);
         hitEffect.SetPositionData(transform.position, Quaternion.identity);
@@ -158,21 +162,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     #endregion
 
 
-        public IEnumerator randomPosition()
-    {
-        while (true)
-        {
-        int time = UnityEngine.Random.Range(5,11);
-         GameManager.instance.x = UnityEngine.Random.Range(-1,2);
-         int y = UnityEngine.Random.Range(-1,2);
 
 
-        GameManager.instance.moveVector = new Vector2( GameManager.instance.x,y);
-        yield return new WaitForSeconds(time);
 
-        }
 
-    }
+
 
 
 
