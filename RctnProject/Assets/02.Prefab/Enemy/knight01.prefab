@@ -96,7 +96,6 @@ GameObject:
   - component: {fileID: 6087087486374525979}
   - component: {fileID: 6087087486374525978}
   - component: {fileID: 6087087486374525983}
-  - component: {fileID: 7729422168049376420}
   - component: {fileID: 99713303}
   m_Layer: 6
   m_Name: knight01
@@ -239,23 +238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 652eb05312189324f8c8d105bec83214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 0, y: 0, z: 0}
-  abilityData: {fileID: 11400000, guid: 0f92a18936d7070499f0786a09c8aa12, type: 2}
-  player: {fileID: 7729422168049376420}
-  enemy: {fileID: 6087087486374525983}
---- !u!114 &7729422168049376420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6087087486374525973}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 363f50d8185fe68428e88b39209b89b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offset: {x: 0, y: 0, z: 0}
+  isDead: 0
   abilityData: {fileID: 11400000, guid: 0f92a18936d7070499f0786a09c8aa12, type: 2}
 --- !u!82 &99713303
 AudioSource:

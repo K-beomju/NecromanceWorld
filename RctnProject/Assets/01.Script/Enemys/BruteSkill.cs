@@ -16,11 +16,11 @@ public class BruteSkill : MonoBehaviour
         Collider2D[] objects = Physics2D.OverlapCircleAll(transform.position, radius, 1 << LayerMask.NameToLayer("Player"));
         foreach (Collider2D player in objects)
         {
-            Player target = player.gameObject.GetComponent<Player>();
-            if(target != null)
-            {
+            //Player target = player.gameObject.GetComponent<Player>();
+         //   if(target != null)
+           // {
                // target.AddExplosion(transform.position , 20);
-            }
+         //   }
 
         }
     }

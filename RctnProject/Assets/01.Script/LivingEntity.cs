@@ -12,9 +12,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     protected Rigidbody2D rig;
     protected CircleCollider2D circle;
 
-    protected Vector2 normalizedDirection;
-    protected Vector2 direction;
-    protected Vector3 targetPosition;
+
     protected Collider2D hitCollider;
 
 
@@ -27,9 +25,6 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     protected float moveSpeed;
 
 
-    public Vector3 offset; // 위치 보정
-    private AudioSource attackAudio;
-    protected Vector3 attackPosition;
 
 
 
@@ -46,11 +41,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     {
 
         circle = GetComponent<CircleCollider2D>();
-        anim = GetComponent<Animator>();
+        anim = GetComponentInChildren<Animator>();
 
-       sprite = GetComponentInChildren<SpriteRenderer>();
+        sprite = GetComponentInChildren<SpriteRenderer>();
         rig = GetComponent<Rigidbody2D>();
-        attackAudio = GetComponent<AudioSource>();
+
         SetAbility();
 
 
@@ -74,11 +69,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     public void Attack(string targetName)
     {
         int layerMask = 1 << LayerMask.NameToLayer(targetName);
-        attackPosition = transform.position + offset;
-        if ((hitCollider = Physics2D.OverlapCircle(attackPosition, attackRange, layerMask)) && !isDead )
+
+        if ((hitCollider = Physics2D.OverlapCircle(transform.position, attackRange, layerMask)) && !isDead)
         {
             moveSpeed = 0.55f;
-             transform.position = Vector2.MoveTowards(transform.position, hitCollider.transform.position, moveSpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, hitCollider.transform.position, moveSpeed * Time.deltaTime);
             anim.SetBool("Attack", true);
             isAttack = true;
 
@@ -96,7 +91,9 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     public void DAttack()
     {
-        attackAudio.Play();
+
+        GameManager.instance.attackAudio[Random.Range(0,   GameManager.instance.attackAudio.Length)].Play();
+
         if (hitCollider != null)
         {
             if (hitCollider.transform.position.x >= transform.position.x)
@@ -139,7 +136,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     public void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(attackPosition, attackRange);
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 
     #region 풀링 오브젝트
@@ -159,9 +156,9 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         deadTxt = GameManager.GetDeadText();
         deadTxt.SetPosition(gameObject.transform.position);
     }
+
+
     #endregion
-
-
 
 
 

@@ -17,7 +17,7 @@ public class ObjectPooling<T> where T : MonoBehaviour
         m_queue = new Queue<T>();
         for(int i = 0; i < count; i++)
         {
-            GameObject obj = GameObject.Instantiate(prefab, parent);
+        GameObject obj = GameObject.Instantiate(prefab, parent);
             T t = obj.GetComponent<T>();
             obj.SetActive(false);
             m_queue.Enqueue(t);
