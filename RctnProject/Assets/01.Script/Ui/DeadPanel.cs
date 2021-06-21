@@ -13,7 +13,7 @@ public class DeadPanel : MonoBehaviour
     {
         audioSource.Play();
         backMusic.gameObject.SetActive(false);
-          StartCoroutine(MoveScene("GameScene", 0));
+          StartCoroutine(MoveScene("StartScene", 0));
 
     }
 

@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Test : MonoBehaviour
+public class TextColor : MonoBehaviour
 {
-    public Text text;
+    private Text text;
+
 
 
     void Start()
     {
+        text = GetComponent<Text>();
         StartCoroutine(ChangeColor());
     }
     IEnumerator ChangeColor()

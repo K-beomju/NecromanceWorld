@@ -16,7 +16,6 @@ public class LivingPlayer : LivingEntity
         if (Input.GetMouseButton(0))
         {
             Rotate();
-
             anim.SetFloat("Speed", 1);
             GameManager.instance.crossTxt.gameObject.SetActive(false);
         }
@@ -39,10 +38,9 @@ public class LivingPlayer : LivingEntity
      public void Rotate()
     {
 
-
+        normalizedDirection = new Vector2(direction.x, direction.y);
         transform.Translate(normalizedDirection * moveSpeed * Time.deltaTime);
         direction = (targetPosition - transform.position).normalized;
-        normalizedDirection = new Vector2(direction.x, direction.y);
 
 
 
@@ -58,15 +56,6 @@ public class LivingPlayer : LivingEntity
     {
         transform.position = pos;
     }
-
-    public void Reset()
-    {
-        sprite.color = Color.white;
-        circle.enabled =true;
-        this.enabled = true;
-
-    }
-
 
 
     protected override void Die()

@@ -21,12 +21,6 @@ public class GameManager : MonoBehaviour
     public GameObject deadTxt;
 
 
-    [Header("Status")]
-    [Space(45)]
-    [HideInInspector]
-    public bool isRun;
-    public float moveSpeed;
-
     public GameObject crossHair;
     public RectTransform crossTxt;
 
@@ -48,9 +42,6 @@ public class GameManager : MonoBehaviour
 
 
 
-
-
-
     public AudioSource necroAudio;
     public AudioSource deadAudio;
     public AudioSource[] attackAudio;
@@ -63,7 +54,7 @@ public class GameManager : MonoBehaviour
         Cursor.visible = false;
 
         // 적 그룹 obj
-        groupPool = new ObjectPooling<EnemyGroup>(enemyGroupPrefab, enemyGroupObj.transform, 3);
+        groupPool = new ObjectPooling<EnemyGroup>(enemyGroupPrefab, enemyGroupObj.transform, 10);
 
         // 이펙트 풀링
         effectPool = new ObjectPooling<EffectObject>[effect.Length];
@@ -95,8 +86,6 @@ public class GameManager : MonoBehaviour
 
     protected void Start()
     {
-        moveSpeed = 3;
-        isRun = false;
         endPanel.SetActive(false);
 
     }

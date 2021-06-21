@@ -13,11 +13,12 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     protected CircleCollider2D circle;
 
 
-    protected Collider2D hitCollider;
+    private Collider2D hitCollider;
 
 
-    public bool isDead;
-    protected bool isAttack;
+
+    protected bool isDead;
+    public bool isAttack;
 
     protected float health;
     protected float attackRange;
@@ -77,12 +78,14 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
             anim.SetBool("Attack", true);
             isAttack = true;
 
+
         }
         else
         {
             moveSpeed = abilityData.MoveSpeed;
             anim.SetBool("Attack", false);
             isAttack = false;
+
 
         }
     }

@@ -5,9 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class StartScene : MonoBehaviour
 {
-   public Animator animator;
+   private Animator animator;
 
    public float transtime = 1f;
+
+   void Awake()
+   {
+       animator = GetComponentInChildren<Animator>();
+   }
 
    void Update()
    {

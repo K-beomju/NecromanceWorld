@@ -43,3 +43,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50bb24f2a6e889843b9ff81df5d4393e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 2
+  moveSpot: {x: 0, y: 0}
