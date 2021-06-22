@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,8 +11,7 @@ public class Enemy : LivingEntity
     private EnemyGroup enemyGroup;
     private LivingPlayer player;
 
-
-    protected override void Start()
+    void Start()
     {
         enemy = GetComponent<Enemy>();
         enemyGroup = GetComponentInParent<EnemyGroup>();
@@ -21,67 +21,100 @@ public class Enemy : LivingEntity
 
 
 
+
     void Update()
     {
-        base.Attack("Player");
-        if(isAttack)
+
+        // if (Input.GetMouseButton(1) && isDead) // 우클릭
+        // {
+
+        //     if (enemyManager.SearchGroup())
+        //     {
+        //         GameManager.instance.necroAudio.Play();
+        //         player = GameManager.GetCreatePlayer(0);
+        //         player.SetPosition(transform.position);
+
+
+
+
+
+
+        //         GameManager.instance.cinemachine.AddMember(player.transform, 1, 0);
+        //         OnNecroEffect(1);
+        //         GameManager.CamShake(4f, 0.5f);
+
+        //         enemyManager.panel.gameObject.SetActive(false);
+        //         gameObject.SetActive(false);
+
+        //     }
+
+        // }
+
+
+        if (enemyGroup.isPatrol)
         {
-            enemyGroup.enabled = false;
+            anim.SetFloat("Speed", 1);
         }
         else
         {
-             enemyGroup.enabled = true;
+            anim.SetFloat("Speed", 0);
         }
-        if(enemyGroup.moveSpot.x >= transform.position.x)
+        anim.SetBool("Attack", isAttack);
+        SensingAttack();
+
+
+    }
+
+
+    protected override void Attack()
+    {
+        if (isAttack)
         {
-            transform.localScale = new Vector3(1,1,1);
-        }
-        else
-        {
-            transform.localScale = new Vector3(-1,1,1);
-        }
-
-
-
-
-
-        if (Input.GetMouseButton(1) && isDead) // 우클릭
-        {
-
-            if (enemyManager.SearchGroup())
+            LivingEntity target = hitCollider.transform.GetComponent<LivingEntity>();
+            if (target != null)
             {
-                GameManager.instance.necroAudio.Play();
-                player = GameManager.GetCreatePlayer(0);
-                player.SetPosition(transform.position);
-
-                GameManager.instance.cinemachine.AddMember(player.transform, 1, 0);
-                OnNecroEffect(1);
-                GameManager.CamShake(3f, 0.5f);
-
-                enemyManager.panel.gameObject.SetActive(false);
-                gameObject.SetActive(false);
-
+                target.OnDamage(attackDamage);
             }
 
         }
+    }
+
+    private void SensingAttack()
+    {
+        if (!isDead)
+        {
+            hitCollider = Physics2D.OverlapCircle(transform.position, attackRange, whatIsLayer);
+            if (hitCollider)
+            {
+                moveSpeed = 1;
+                isAttack = true;
+            }
+            else
+            {
+                moveSpeed = 4;
+                isAttack = false;
+            }
+        }
+    }
 
 
+    public override void OnDamage(float damage)
+    {
+        StartCoroutine(ChangeColor(myColor));
+        base.OnDamage(damage);
     }
 
     protected override void Die()
     {
-        gameObject.transform.parent = this.gameObject.transform.root;
         isDead = true;
+
+       gameObject.transform.parent = this.gameObject.transform.root;
         OnNecroEffect(2);
         anim.enabled = false;
         circle.enabled = false;
         enemyManager.Dead(this);
-        sprite.color = Color.red;
+
     }
-
-
-
-
 
 
 

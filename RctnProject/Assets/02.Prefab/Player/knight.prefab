@@ -334,5 +334,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5a8ce9b7d08750459a1450297c40c3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDead: 0
+  whatIsLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  myColor: {r: 1, g: 1, b: 1, a: 1}
   abilityData: {fileID: 11400000, guid: 0f92a18936d7070499f0786a09c8aa12, type: 2}
+  offset: {x: 0, y: 0, z: 0}

@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 6087087486374525983}
   - component: {fileID: 99713303}
   m_Layer: 6
-  m_Name: knight01
+  m_Name: knight02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,14 +111,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6087087486374525973}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.626, y: 0.55254287, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 0}
   m_Children:
   - {fileID: 6087087485978117922}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!212 &6087087486374525977
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -160,7 +160,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 6
   m_Sprite: {fileID: 21300000, guid: b9747d2a19b302641829edbc104ed51e, type: 3}
-  m_Color: {r: 0.97254896, g: 0, b: 1, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.064534426, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -238,14 +238,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 652eb05312189324f8c8d105bec83214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  whatIsLayer:
-    serializedVersion: 2
-    m_Bits: 8
-  myColor: {r: 0.972549, g: 0, b: 1, a: 1}
+  isDead: 0
+  isAttack: 0
   health: 0
-  moveSpeed: 0
-  abilityData: {fileID: 11400000, guid: 0f92a18936d7070499f0786a09c8aa12, type: 2}
-  offset: {x: 0, y: 0, z: 0}
+  abilityData: {fileID: 11400000, guid: 1a6d8dde8f7ec8f4e92fde69741c3690, type: 2}
+  offset: {x: 0, y: -0.3, z: 0}
+  color: {r: 0, g: 1, b: 0.0627451, a: 1}
 --- !u!82 &99713303
 AudioSource:
   m_ObjectHideFlags: 0

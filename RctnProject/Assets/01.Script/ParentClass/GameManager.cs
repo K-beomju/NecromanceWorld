@@ -46,6 +46,8 @@ public class GameManager : MonoBehaviour
     public AudioSource deadAudio;
     public AudioSource[] attackAudio;
 
+   // public int playerGroup;
+
 
 
     void Awake()
@@ -86,6 +88,7 @@ public class GameManager : MonoBehaviour
 
     protected void Start()
     {
+      //  playerGroup = 5;
         endPanel.SetActive(false);
 
     }

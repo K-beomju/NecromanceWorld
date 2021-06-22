@@ -25,13 +25,13 @@ public class EnemyManager : MonoBehaviour
     private int enemyCount; // 적 그룹안에 있는 적들의 갯수
     public Transform[] spawnPoint;
     private int spawn;
-
+    public int enemySet;
 
 
 
     void Start()
     {
-
+        enemySet = 0;
         spawn = 0;
         enemyGroupCount = 0;
        // playerGroup = 5;
@@ -45,7 +45,7 @@ public class EnemyManager : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(1f);
-            if (enemyGroupCount != 8  )
+            if (enemyGroupCount != 2  )
             {
                 int randCount = UnityEngine.Random.Range(2,5);
                 enemyCount = randCount;
@@ -57,7 +57,7 @@ public class EnemyManager : MonoBehaviour
                  for (int i = 0; i < enemyCount; i++)
                  {
                      int t = UnityEngine.Random.Range(0, 361);
-                    enemyStructs[enemyGroupCount].list.Add(enemyStructs[enemyGroupCount].enemy[i] = GameManager.GetCreateEnemy(0));
+                    enemyStructs[enemyGroupCount].list.Add(enemyStructs[enemyGroupCount].enemy[i] = GameManager.GetCreateEnemy(enemySet));
                      enemyStructs[enemyGroupCount].enemy[i].gameObject.transform.parent = enemyGroup.transform;
                     enemyStructs[enemyGroupCount].enemy[i].transform.position +=  new Vector3( Mathf.Cos(t) /2 ,  Mathf.Sin(t) /2);
                  }
@@ -79,24 +79,26 @@ public class EnemyManager : MonoBehaviour
 
     public bool SearchGroup()
     {
-        for (int i = 0; i < enemyGroupCount; i++) // 몇번째 그룹인지 검사
+        for (int i = 0; i <= enemyGroupCount; i++) // 몇번째 그룹인지 검사
         {
             for (int j = 0; j <= enemyStructs[i].list.Count; j++) // 그 그룹의 적 갯수만큼
             {
                 if (enemyStructs[i].list.Count == 0 ) // 그 그룹의 리스트가 비었다면  && enemyGroup.gameObject.transform.GetChild(j).gameObject.layer == LayerMask.NameToLayer("Player")
                 {
+
                     return true;
                 }
             }
         }
         return false;
-
     }
+
 
 
 
     public void Dead(Enemy _enemy)
     {
+
         for (int i = enemyGroupCount; i >= 0; i--)
         {
             if (enemyStructs[i].list.Count == 1)
@@ -105,9 +107,7 @@ public class EnemyManager : MonoBehaviour
                 panel.SetPosition(new Vector3(_enemy.transform.position.x,_enemy.transform.position.y + 1f, _enemy.transform.position.z));
 
             }
-
             enemyStructs[i].list.Remove(_enemy);
-
         }
 
     }
