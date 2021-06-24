@@ -12,7 +12,7 @@ public class EnemyManager : MonoBehaviour
         public List<Enemy> list; // 몬스터의 수
 
     }
-    public EnemyStruct[] enemyStructs = new EnemyStruct[10]; // 몬스터 그룹
+    public EnemyStruct[] enemyStructs = new EnemyStruct[100]; // 몬스터 그룹
 
     private Enemy enemyPool;
     private EnemyGroup enemyGroup;
@@ -25,8 +25,10 @@ public class EnemyManager : MonoBehaviour
     private int enemyCount; // 적 그룹안에 있는 적들의 갯수
     public Transform[] spawnPoint;
     private int spawn;
-    public int enemySet;
+    private int enemySet;
 
+    [Header("적의 그룹수 지정")]
+    public int setEnemyGroup;
 
 
     void Start()
@@ -34,82 +36,62 @@ public class EnemyManager : MonoBehaviour
         enemySet = 0;
         spawn = 0;
         enemyGroupCount = 0;
-       // playerGroup = 5;
         enemyCount = 0;
-        StartCoroutine(SpawnEnemys());
+
+        EnemySpawner();
     }
 
-
-    private IEnumerator SpawnEnemys()
+    private void EnemySpawner()
     {
-        while (true)
+        for (enemyGroupCount = 0; enemyGroupCount < setEnemyGroup; enemyGroupCount++)
         {
-            yield return new WaitForSeconds(1f);
-            if (enemyGroupCount != 2  )
-            {
-                int randCount = UnityEngine.Random.Range(2,5);
-                enemyCount = randCount;
-                enemyStructs[enemyGroupCount].enemy = new Enemy[enemyCount];
-
-                enemyGroup = GameManager.GetCreateGroup();
-
-
-                 for (int i = 0; i < enemyCount; i++)
-                 {
-                     int t = UnityEngine.Random.Range(0, 361);
-                    enemyStructs[enemyGroupCount].list.Add(enemyStructs[enemyGroupCount].enemy[i] = GameManager.GetCreateEnemy(enemySet));
-                     enemyStructs[enemyGroupCount].enemy[i].gameObject.transform.parent = enemyGroup.transform;
-                    enemyStructs[enemyGroupCount].enemy[i].transform.position +=  new Vector3( Mathf.Cos(t) /2 ,  Mathf.Sin(t) /2);
-                 }
-
-                enemyGroup.SetPositionData( new Vector2(spawnPoint[spawn].transform.position.x ,spawnPoint[spawn].transform.position.y ),Quaternion.identity);
-
-
-
-            enemyGroupCount = (enemyGroupCount + 1) % 9;
-               spawn = (spawn + 1) % spawnPoint.Length;
-
-
-            }
-
-
+            SetEnemyGroup();
+            SetCreateEnemy(0);
+            enemyGroup.SetPositionData(new Vector2(spawnPoint[spawn].transform.position.x, spawnPoint[spawn].transform.position.y), Quaternion.identity);
+            spawn = (spawn + 1) % spawnPoint.Length;
         }
     }
 
 
-    public bool SearchGroup()
+    public void SetEnemyGroup()
     {
-        for (int i = 0; i <= enemyGroupCount; i++) // 몇번째 그룹인지 검사
-        {
-            for (int j = 0; j <= enemyStructs[i].list.Count; j++) // 그 그룹의 적 갯수만큼
-            {
-                if (enemyStructs[i].list.Count == 0 ) // 그 그룹의 리스트가 비었다면  && enemyGroup.gameObject.transform.GetChild(j).gameObject.layer == LayerMask.NameToLayer("Player")
-                {
-
-                    return true;
-                }
-            }
-        }
-        return false;
+        //적의 스폰 카운트 지정 플레이어 유닛에 맞춰서 지정
+        int randCount = UnityEngine.Random.Range(4, 6);
+        enemyCount = randCount;
+        //적 컨테이너에 적의 {i}번째 그룹에 enemyCount를 미리 생성해준다.
+        enemyStructs[enemyGroupCount].enemy = new Enemy[enemyCount];
+        //적의 그룹을 가져온다.
+        enemyGroup = GameManager.GetCreateGroup();
     }
 
-
-
+    public void SetCreateEnemy(int enemyMob)
+    {
+        for (int i = 0; i < enemyCount; i++)
+        {
+            int t = UnityEngine.Random.Range(0, 361);
+            enemyStructs[enemyGroupCount].list.Add(enemyStructs[enemyGroupCount].enemy[i] = GameManager.GetCreateEnemy(enemyMob));
+            // 적 컨테이너 그룹에 들어갈 적들을 리스트로 더해주고 enemySet의 (기본적)을 만들어준다.
+            //적들을 미리 만들어둔 적의 그룹에 넣어준다.
+            enemyStructs[enemyGroupCount].enemy[i].gameObject.transform.parent = enemyGroup.transform;
+            // 적 원형 생성 코사인과 라디안
+            enemyStructs[enemyGroupCount].enemy[i].transform.position += new Vector3(Mathf.Cos(t) / 2, Mathf.Sin(t) / 2);
+        }
+        // 적 그룹의 포지션을 미리 지정해둔 스폰 포인트에 설정해준다.
+    }
 
     public void Dead(Enemy _enemy)
     {
 
-        for (int i = enemyGroupCount; i >= 0; i--)
+        for (int i = enemyGroupCount - 1; i >= 0; i--)
         {
             if (enemyStructs[i].list.Count == 1)
             {
+                enemyStructs[i].enemy = null;
                 panel = GameManager.GetDeadText();
-                panel.SetPosition(new Vector3(_enemy.transform.position.x,_enemy.transform.position.y + 1f, _enemy.transform.position.z));
-
+                panel.SetPosition(new Vector3(_enemy.transform.position.x, _enemy.transform.position.y + 1f, _enemy.transform.position.z));
             }
             enemyStructs[i].list.Remove(_enemy);
         }
-
     }
 
 

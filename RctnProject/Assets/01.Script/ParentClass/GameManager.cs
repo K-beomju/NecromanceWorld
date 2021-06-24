@@ -46,8 +46,8 @@ public class GameManager : MonoBehaviour
     public AudioSource deadAudio;
     public AudioSource[] attackAudio;
 
-   // public int playerGroup;
-
+    public int playerGroup;
+    public Text playerText;
 
 
     void Awake()
@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
         Cursor.visible = false;
 
         // 적 그룹 obj
-        groupPool = new ObjectPooling<EnemyGroup>(enemyGroupPrefab, enemyGroupObj.transform, 10);
+        groupPool = new ObjectPooling<EnemyGroup>(enemyGroupPrefab, enemyGroupObj.transform, 30);
 
         // 이펙트 풀링
         effectPool = new ObjectPooling<EffectObject>[effect.Length];
@@ -88,11 +88,15 @@ public class GameManager : MonoBehaviour
 
     protected void Start()
     {
-      //  playerGroup = 5;
+        playerGroup = 5;
+         UpdateText();
         endPanel.SetActive(false);
 
     }
-
+    public void UpdateText()
+    {
+         playerText.text = ($"유저의 유닛 수: {playerGroup}");
+    }
 
     public static void CamShake(float intense, float during)
     {
@@ -125,7 +129,19 @@ public class GameManager : MonoBehaviour
     }
 
 
+    void Update()
+    {
+        if(Input.GetKey(KeyCode.Q))
+        {
 
+
+         crossHair.SetActive(false);
+          endPanel.SetActive(true);
+            Cursor.visible = true;
+
+        }
+
+    }
 
 
 

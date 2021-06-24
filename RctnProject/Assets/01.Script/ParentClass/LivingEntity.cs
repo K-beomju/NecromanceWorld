@@ -11,9 +11,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     protected SpriteRenderer sprite; // 마우스 위치 비교, 어디서 공격하는지 비교, 적 그룹 순찰할때 비교
     protected Animator anim; // 대기 , 달리기 , 공격
     protected CircleCollider2D circle; // 죽으면 콜라이더 꺼줌
+    protected Rigidbody2D rig;
     protected Collider2D hitCollider; // 공격 감지 콜라이더 ,추적
     public LayerMask whatIsLayer;
     public Color myColor;
+    public Vector2 ChangePos;
 
 
     public bool isDead { get; protected set;}
@@ -35,6 +37,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     protected void Awake()
     {
+        rig = GetComponent<Rigidbody2D>();
         circle = GetComponent<CircleCollider2D>();
         anim = GetComponentInChildren<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
@@ -66,26 +69,43 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     protected abstract void Die();
 
-    protected abstract void Attack();
-
-
-    protected IEnumerator ChangeColor(Color color)
+     protected virtual void Attack()
     {
-        sprite.color = Color.red;
-        yield return new WaitForSeconds(0.2f);
-        sprite.color = color;
+        GameManager.instance.attackAudio[UnityEngine.Random.Range(0,GameManager.instance.attackAudio.Length)].Play();
+        if (isAttack)
+        {
+            LivingEntity target = hitCollider.transform.GetComponent<LivingEntity>();
+            if (target != null)
+            {
+                target.OnDamage(attackDamage);
+            }
+
+        }
     }
 
 
 
 
 
+    protected IEnumerator ChangeColor(Color color)
+    {
+        sprite.color = new Color(255/255f,133/255f,133/255f,255/255f);
+        yield return new WaitForSeconds(0.2f);
+        sprite.color = color;
+    }
 
 
     public void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position + offset, attackRange);
     }
+
+
+
+
+
+
+
 
     #region 풀링 오브젝트
     public void OnNecroEffect(int i)
