@@ -18,6 +18,10 @@ public class LivingPlayer : LivingEntity
             Rotate();
             GameManager.instance.crossTxt.gameObject.SetActive(false);
         }
+        else
+        {
+            anim.SetBool("Idle", false);
+        }
 
 
         targetPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -56,14 +60,13 @@ public class LivingPlayer : LivingEntity
     {
         if(Vector3.Distance(targetPosition , transform.position) > 4)
         {
-              anim.SetBool("isIdle", true);
-        //  transform.Translate(normalizedDirection * moveSpeed * Time.deltaTime);
+              anim.SetBool("Idle", true);
           transform.position = Vector2.MoveTowards(transform.position, targetPosition , moveSpeed * Time.deltaTime);
 
         }
         else
         {
-              anim.SetBool("isIdle", false);
+              anim.SetBool("Idle", false);
         }
 
 
