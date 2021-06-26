@@ -16,13 +16,15 @@ public class Enemy : LivingEntity
     public float chaseSpeed;
 
 
+
+
     void Start()
     {
+
         enemy = GetComponent<Enemy>();
         enemyGroup = GetComponentInParent<EnemyGroup>();
         enemyManager = GetComponentInParent<EnemyManager>();
     }
-
 
 
     void Update()
@@ -52,6 +54,13 @@ public class Enemy : LivingEntity
         }
         return false;
     }
+    public override void OnDamage(float damage)
+    { if (this.gameObject.activeInHierarchy)
+            {
+        StartCoroutine(ChangeColor());
+            }
+        base.OnDamage(damage);
+    }
 
 
     protected override void Die()
@@ -59,12 +68,13 @@ public class Enemy : LivingEntity
         isDead = true;
         isAttack = false;
         isIdle = false;
+              transform.GetChild(0).transform.rotation =  Quaternion.identity;
+        transform.GetChild(0).transform.localPosition = knifeLocalPos;
+
         enemyDead = GameManager.GetCreateEnemyDead(enemyMobs);
         enemyDead.SetPosition(transform.position);
 
         OnNecroEffect(2);
-        anim.enabled = false;
-        circle.enabled = false;
         enemyManager.Dead(this);
         gameObject.SetActive(false);
     }
@@ -72,7 +82,6 @@ public class Enemy : LivingEntity
 
     public void OnNecromance()
     {
-        Debug.Log("hrd");
         gameObject.transform.parent = this.gameObject.transform.root;
         GameManager.instance.necroAudio.Play();
         player = GameManager.GetCreatePlayer(enemyMobs);
@@ -82,9 +91,6 @@ public class Enemy : LivingEntity
 
         OnNecroEffect(1);
         GameManager.CamShake(4f, 0.5f);
-
-
-
     }
 
 

@@ -26,6 +26,7 @@ public class EnemyManager : MonoBehaviour
     public Transform[] spawnPoint;
     private int spawn;
     private int enemySet;
+    private bool isClear;
 
     [Header("적의 그룹수 지정")]
     public int setEnemyGroup;
@@ -33,16 +34,19 @@ public class EnemyManager : MonoBehaviour
 
     void OnEnable()
     {
+        isClear = false;
         enemySet = 0;
-        spawn = 0;
-        enemyGroupCount = 0;
-        enemyCount = 0;
+
+      //  enemyGroupCount = 0;
+       // enemyCount = 0;
+
 
         EnemySpawner();
     }
 
-    private void EnemySpawner()
+    public void EnemySpawner()
     {
+
         for (enemyGroupCount = 0; enemyGroupCount < setEnemyGroup; enemyGroupCount++)
         {
             SetEnemyGroup();
@@ -54,15 +58,24 @@ public class EnemyManager : MonoBehaviour
 
     void Update()
     {
-        for (int i = 0; i < setEnemyGroup; i++)
+        for (int i = 0; i < remainingEnemy; i++)
         {
             if (transform.GetChild(i).gameObject.activeSelf)
             {
+                isClear = true;
                 return; // 아직 살아있다면 리턴
+
             }
         }
-        gameObject.GetComponent<EnemyManager>().enabled = false;
+        if(isClear)
+        {
+            Cursor.visible = true;
+          UiManager.instance.shopPanel.SetActive(true);
+          isClear = false;
+        }
     }
+
+
 
 
     public void SetEnemyGroup()

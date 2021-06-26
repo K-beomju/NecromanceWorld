@@ -1,35 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using System.IO;
+
+
+
 
 public class PlayerGroup : MonoBehaviour
 {
-    [HideInInspector] public Vector2 normalizedDirection;
-    public Vector3 targetPosition;
-    private Vector2 direction;
+    public DataController dataController;
+    private LivingPlayer living;
 
-
-
-    void Update()
+    void Start()
     {
-        if(Input.GetMouseButton(0))
+
+           for (int i = 0; i < dataController.groupData.mob01count; i++)
         {
-             Rotate();
+            int t = UnityEngine.Random.Range(0, 361);
+            living = GameManager.GetCreatePlayer(0);
+            living.SetPosition(this.gameObject.transform.position + new Vector3(Mathf.Cos(t) / 2, Mathf.Sin(t) / 2));
 
+            GameManager.instance.cinemachine.AddMember(living.transform,1,0);
         }
-        targetPosition = Camera.main.WorldToScreenPoint(Input.mousePosition);
-        GameManager.instance.crossHair.transform.position = new Vector2(targetPosition.x, targetPosition.y);
-    }
-
-
-     public void Rotate()
-    {
-        for (int i = 0; i < transform.childCount; i++)
-        {
-             transform.GetChild(i).localPosition = Vector2.MoveTowards( transform.GetChild(i).localPosition,  targetPosition,  3 * Time.deltaTime);
-        }
-        direction = (targetPosition - transform.position).normalized;
-        normalizedDirection = new Vector2(direction.x, direction.y);
-
     }
 }

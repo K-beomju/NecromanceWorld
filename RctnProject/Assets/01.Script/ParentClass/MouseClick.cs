@@ -32,7 +32,7 @@ public class MouseClick : MonoBehaviour
                 }
             }
 
-            for (int i = 0; i < enemyManager.enemyGroupCount; i++)
+            for (int i = 0; i < enemyManager.remainingEnemy; i++)
             {
                 if(enemyManager.enemyStructs[i].list.Count == 0)
                 {

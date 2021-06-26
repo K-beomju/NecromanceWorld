@@ -43,13 +43,12 @@ public class GameManager : MonoBehaviour
     public CinemachineTargetGroup cinemachine;
     public CameraEffect camEffect;
 
-
-
     public AudioSource necroAudio;
     public AudioSource deadAudio;
     public AudioSource[] attackAudio;
 
 
+    public int playerGroup;
 
 
     void Awake()
@@ -75,7 +74,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < enemyPrefab.Length; i++)
         {
             enemyPrefab[i].gameObject.SetActive(false);
-            enemyPool[i] = new ObjectPooling<Enemy>(enemyPrefab[i], enemyGroupObj.transform, 50);
+            enemyPool[i] = new ObjectPooling<Enemy>(enemyPrefab[i], enemyGroupObj.transform, 10);
         }
 
         // 플레이어 풀링
@@ -96,10 +95,11 @@ public class GameManager : MonoBehaviour
 
     }
 
-    protected void Start()
+     void Start()
     {
-
+        playerGroup = 5;
         endPanel.SetActive(false);
+
 
     }
 

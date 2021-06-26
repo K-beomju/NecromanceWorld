@@ -16,9 +16,9 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     public LayerMask whatIsLayer;
 
 
-    public bool isDead { get; protected set;}
-    public bool isAttack { get; protected set;}
-    public bool isIdle {get; protected set;}
+    public bool isDead { get; protected set; }
+    public bool isAttack { get; protected set; }
+    public bool isIdle { get; protected set; }
 
     protected float health;
     protected float attackRange;
@@ -32,23 +32,30 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     private EffectObject hitEffect;
     private Uipanel deadTxt;
     public Vector3 offset;
+    protected Vector3 knifeLocalPos;
 
-
-    protected void Awake()
+    void Awake()
     {
-        rig = GetComponent<Rigidbody2D>();
+          rig = GetComponent<Rigidbody2D>();
         circle = GetComponent<CircleCollider2D>();
         anim = GetComponentInChildren<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
+          knifeLocalPos = gameObject.transform.GetChild(0).localPosition;
     }
 
     protected virtual void OnEnable()
     {
         isDead = false;
+        sprite.color = Color.white;
+        transform.position = Vector2.zero;
         SetAbility();
     }
 
-     public void SetAbility()
+
+
+
+
+    public void SetAbility()
     {
         health = abilityData.Health;
         attackRange = abilityData.AttackRange;
@@ -59,12 +66,8 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     public virtual void OnDamage(float damage)
     {
         health -= damage;
-        if(this.gameObject != null)
-        {
 
-        StartCoroutine(ChangeColor());
-        }
-        if (health <= 0  && !isDead)
+        if (health <= 0 && !isDead)
         {
             Die();
         }
@@ -73,20 +76,20 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     protected abstract void Die();
 
-     protected virtual void Attack()
+    protected virtual void Attack()
     {
 
         if (isAttack)
         {
-            if(hitCollider.transform.position.x > transform.position.x)
+            if (hitCollider.transform.position.x > transform.position.x)
             {
 
-                transform.localScale = new Vector3(1,1,1);
+                transform.localScale = new Vector3(1, 1, 1);
             }
             else
             {
 
-                transform.localScale = new Vector3(-1,1,1);
+                transform.localScale = new Vector3(-1, 1, 1);
             }
 
 
@@ -108,7 +111,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
             if (hitCollider)
             {
 
-                transform.position = Vector2.MoveTowards(transform.position,hitCollider.transform.position , moveSpeed * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, hitCollider.transform.position, moveSpeed * Time.deltaTime);
                 moveSpeed = 0.2f;
                 isAttack = true;
             }
@@ -127,7 +130,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
     protected IEnumerator ChangeColor()
     {
-        sprite.color = new Color(255/255f,133/255f,133/255f,255/255f);
+        sprite.color = new Color(255 / 255f, 133 / 255f, 133 / 255f, 255 / 255f);
         yield return new WaitForSeconds(0.2f);
         sprite.color = Color.white;
     }

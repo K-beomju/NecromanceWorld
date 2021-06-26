@@ -11,6 +11,8 @@ public class LivingPlayer : LivingEntity
 
 
 
+
+
     void Update()
     {
         if (Input.GetMouseButton(0))
@@ -69,6 +71,15 @@ public class LivingPlayer : LivingEntity
     {
         base.Attack();
               GameManager.instance.attackAudio[UnityEngine.Random.Range(0,GameManager.instance.attackAudio.Length)].Play();
+    }
+
+    public override void OnDamage(float damage)
+    {
+         if (this.gameObject.activeInHierarchy)
+            {
+        StartCoroutine(ChangeColor());
+            }
+        base.OnDamage(damage);
     }
 
     protected override void Die()

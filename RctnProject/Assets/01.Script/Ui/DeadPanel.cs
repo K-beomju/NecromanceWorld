@@ -9,13 +9,17 @@ public class DeadPanel : MonoBehaviour
       AsyncOperation async;
      public GameObject backMusic;
      public AudioSource audioSource;
+
     void OnEnable()
     {
+
         audioSource.Play();
         backMusic.gameObject.SetActive(false);
           StartCoroutine(MoveScene("GameScene", 0));
 
+
     }
+
 
 
     IEnumerator MoveScene(string name, int count)
