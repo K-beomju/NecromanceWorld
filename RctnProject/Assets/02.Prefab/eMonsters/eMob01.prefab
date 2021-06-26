@@ -11,15 +11,16 @@ GameObject:
   - component: {fileID: 4021740691389696080}
   - component: {fileID: 4021740691389696083}
   - component: {fileID: 4021740691389696082}
-  - component: {fileID: 4021740691389696081}
   - component: {fileID: 4021740691389696094}
+  - component: {fileID: 5893241951133575611}
+  - component: {fileID: 5608131054758306898}
   m_Layer: 6
   m_Name: eMob01
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4021740691389696080
 Transform:
   m_ObjectHideFlags: 0
@@ -105,22 +106,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!58 &4021740691389696081
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4021740691389696085}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.08, y: -0.21}
-  serializedVersion: 2
-  m_Radius: 0.44
 --- !u!50 &4021740691389696094
 Rigidbody2D:
   serializedVersion: 4
@@ -142,6 +127,41 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!58 &5893241951133575611
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4021740691389696085}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.08, y: -0.21}
+  serializedVersion: 2
+  m_Radius: 0.61
+--- !u!114 &5608131054758306898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4021740691389696085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 652eb05312189324f8c8d105bec83214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whatIsLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  abilityData: {fileID: 11400000, guid: 0f92a18936d7070499f0786a09c8aa12, type: 2}
+  offset: {x: 0.09, y: -0.21, z: 0}
+  enemyMobs: 0
+  chaseSpeed: 0.55
 --- !u!1 &4021740692283635063
 GameObject:
   m_ObjectHideFlags: 0

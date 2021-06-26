@@ -14,12 +14,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     protected Rigidbody2D rig;
     protected Collider2D hitCollider; // 공격 감지 콜라이더 ,추적
     public LayerMask whatIsLayer;
-    public Color myColor;
-    public Vector2 ChangePos;
 
 
     public bool isDead { get; protected set;}
     public bool isAttack { get; protected set;}
+    public bool isIdle {get; protected set;}
 
     protected float health;
     protected float attackRange;
@@ -60,6 +59,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     public virtual void OnDamage(float damage)
     {
         health -= damage;
+        if(this.gameObject != null)
+        {
+
+        StartCoroutine(ChangeColor());
+        }
         if (health <= 0  && !isDead)
         {
             Die();
@@ -71,9 +75,22 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
 
      protected virtual void Attack()
     {
-        GameManager.instance.attackAudio[UnityEngine.Random.Range(0,GameManager.instance.attackAudio.Length)].Play();
+
         if (isAttack)
         {
+            if(hitCollider.transform.position.x > transform.position.x)
+            {
+
+                transform.localScale = new Vector3(1,1,1);
+            }
+            else
+            {
+
+                transform.localScale = new Vector3(-1,1,1);
+            }
+
+
+
             LivingEntity target = hitCollider.transform.GetComponent<LivingEntity>();
             if (target != null)
             {
@@ -83,15 +100,36 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         }
     }
 
+    protected void SensingAttack()
+    {
+        if (!isDead)
+        {
+            hitCollider = Physics2D.OverlapCircle(transform.position, attackRange, whatIsLayer);
+            if (hitCollider)
+            {
+
+                transform.position = Vector2.MoveTowards(transform.position,hitCollider.transform.position , moveSpeed * Time.deltaTime);
+                moveSpeed = 0.2f;
+                isAttack = true;
+            }
+            else
+            {
+                moveSpeed = 3;
+                isAttack = false;
+            }
+        }
+    }
 
 
 
 
-    protected IEnumerator ChangeColor(Color color)
+
+
+    protected IEnumerator ChangeColor()
     {
         sprite.color = new Color(255/255f,133/255f,133/255f,255/255f);
         yield return new WaitForSeconds(0.2f);
-        sprite.color = color;
+        sprite.color = Color.white;
     }
 
 

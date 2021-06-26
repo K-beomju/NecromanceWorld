@@ -19,6 +19,8 @@ public class GameManager : MonoBehaviour
     public GameObject[] effect;
     public GameObject[] playerPrefab;
     public GameObject deadTxt;
+    public GameObject[] enemyDeadPrefab;
+    [Space(70)]
 
 
     public GameObject crossHair;
@@ -35,6 +37,7 @@ public class GameManager : MonoBehaviour
     private ObjectPooling<EffectObject>[] effectPool;
     private ObjectPooling<Uipanel> deadPool;
     private ObjectPooling<LivingPlayer>[] playerPool;
+    private ObjectPooling<EnemyDead>[] enemydeadPool;
 
 
     public CinemachineTargetGroup cinemachine;
@@ -46,8 +49,7 @@ public class GameManager : MonoBehaviour
     public AudioSource deadAudio;
     public AudioSource[] attackAudio;
 
-    public int playerGroup;
-    public Text playerText;
+
 
 
     void Awake()
@@ -56,7 +58,7 @@ public class GameManager : MonoBehaviour
         Cursor.visible = false;
 
         // 적 그룹 obj
-        groupPool = new ObjectPooling<EnemyGroup>(enemyGroupPrefab, enemyGroupObj.transform, 30);
+        groupPool = new ObjectPooling<EnemyGroup>(enemyGroupPrefab, enemyGroupObj.transform, 8);
 
         // 이펙트 풀링
         effectPool = new ObjectPooling<EffectObject>[effect.Length];
@@ -73,7 +75,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < enemyPrefab.Length; i++)
         {
             enemyPrefab[i].gameObject.SetActive(false);
-            enemyPool[i] = new ObjectPooling<Enemy>(enemyPrefab[i], enemyGroupObj.transform, 70);
+            enemyPool[i] = new ObjectPooling<Enemy>(enemyPrefab[i], enemyGroupObj.transform, 50);
         }
 
         // 플레이어 풀링
@@ -84,18 +86,21 @@ public class GameManager : MonoBehaviour
             playerPool[i] = new ObjectPooling<LivingPlayer>(playerPrefab[i], playerGroupObj.transform, 70);
         }
 
+        // 적 죽음 오브젝트 풀링
+        enemydeadPool = new ObjectPooling<EnemyDead>[enemyDeadPrefab.Length];
+        for (int i = 0; i < enemyDeadPrefab.Length; i++)
+        {
+            enemyDeadPrefab[i].gameObject.SetActive(false);
+            enemydeadPool[i] = new ObjectPooling<EnemyDead>(enemyDeadPrefab[i], this.transform, 10);
+        }
+
     }
 
     protected void Start()
     {
-        playerGroup = 5;
-         UpdateText();
+
         endPanel.SetActive(false);
 
-    }
-    public void UpdateText()
-    {
-         playerText.text = ($"유저의 유닛 수: {playerGroup}");
     }
 
     public static void CamShake(float intense, float during)
@@ -126,6 +131,11 @@ public class GameManager : MonoBehaviour
       public static LivingPlayer GetCreatePlayer(int i)
     {
         return  instance.playerPool[i].GetOrCreate();
+    }
+
+    public static EnemyDead GetCreateEnemyDead(int i)
+    {
+        return instance.enemydeadPool[i].GetOrCreate();
     }
 
 

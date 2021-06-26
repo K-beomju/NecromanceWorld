@@ -36,15 +36,15 @@ public class MouseClick : MonoBehaviour
             {
                 if(enemyManager.enemyStructs[i].list.Count == 0)
                 {
-            GameManager.instance.UpdateText();
-
                     for (int j = 0; j < enemyGroup[i].transform.childCount; j++)
                     {
                         enemyGroup[i].transform.GetChild(j).transform.GetComponent<Enemy>().OnNecromance();
                         enemyGroup[i].gameObject.SetActive(false);
+                        GameManager.CamShake(5,0.5f);
                     }
 
                 }
+
             }
         }
     }

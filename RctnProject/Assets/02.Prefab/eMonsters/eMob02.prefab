@@ -13,13 +13,14 @@ GameObject:
   - component: {fileID: 756798903783732500}
   - component: {fileID: 756798903783732503}
   - component: {fileID: 756798903783732502}
+  - component: {fileID: 1080501769687616465}
   m_Layer: 6
   m_Name: eMob02
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &756798903783732505
 Transform:
   m_ObjectHideFlags: 0
@@ -142,6 +143,26 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &1080501769687616465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 756798903783732507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 652eb05312189324f8c8d105bec83214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whatIsLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  ChangePos: {x: 0, y: 0}
+  abilityData: {fileID: 11400000, guid: 97361544fbf439140b57d98a36ffcc5d, type: 2}
+  offset: {x: 0, y: 0, z: 0}
+  enemyMobs: 1
+  chaseSpeed: 0
 --- !u!1 &756798903792118162
 GameObject:
   m_ObjectHideFlags: 0

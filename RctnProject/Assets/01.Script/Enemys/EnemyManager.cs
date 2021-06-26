@@ -12,7 +12,7 @@ public class EnemyManager : MonoBehaviour
         public List<Enemy> list; // 몬스터의 수
 
     }
-    public EnemyStruct[] enemyStructs = new EnemyStruct[100]; // 몬스터 그룹
+    public EnemyStruct[] enemyStructs; // 몬스터 그룹
 
     private Enemy enemyPool;
     private EnemyGroup enemyGroup;
@@ -29,9 +29,9 @@ public class EnemyManager : MonoBehaviour
 
     [Header("적의 그룹수 지정")]
     public int setEnemyGroup;
+    public int remainingEnemy;
 
-
-    void Start()
+    void OnEnable()
     {
         enemySet = 0;
         spawn = 0;
@@ -52,11 +52,23 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        for (int i = 0; i < setEnemyGroup; i++)
+        {
+            if (transform.GetChild(i).gameObject.activeSelf)
+            {
+                return; // 아직 살아있다면 리턴
+            }
+        }
+        gameObject.GetComponent<EnemyManager>().enabled = false;
+    }
+
 
     public void SetEnemyGroup()
     {
         //적의 스폰 카운트 지정 플레이어 유닛에 맞춰서 지정
-        int randCount = UnityEngine.Random.Range(4, 6);
+        int randCount = UnityEngine.Random.Range(2, 6);
         enemyCount = randCount;
         //적 컨테이너에 적의 {i}번째 그룹에 enemyCount를 미리 생성해준다.
         enemyStructs[enemyGroupCount].enemy = new Enemy[enemyCount];
@@ -81,16 +93,10 @@ public class EnemyManager : MonoBehaviour
 
     public void Dead(Enemy _enemy)
     {
-
         for (int i = enemyGroupCount - 1; i >= 0; i--)
         {
-            if (enemyStructs[i].list.Count == 1)
-            {
-                enemyStructs[i].enemy = null;
-                panel = GameManager.GetDeadText();
-                panel.SetPosition(new Vector3(_enemy.transform.position.x, _enemy.transform.position.y + 1f, _enemy.transform.position.z));
-            }
             enemyStructs[i].list.Remove(_enemy);
+             enemyStructs[i].enemy = null;
         }
     }
 

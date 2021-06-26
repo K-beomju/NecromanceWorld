@@ -8,24 +8,28 @@ public class EnemyGroup : MonoBehaviour
     private float patrolSpeed;
     private float waitTime;
     private float startWaitTime;
-    public bool isPatrol;
-    private bool isChase;
+    public bool isChase;
+    private bool isDead;
+    private int lastTimeIDied;
 
     public Vector2 moveSpot;
     private Enemy enemies;
+    private EnemyManager enemyManager;
+     private Uipanel panel;
 
 
 
 
     void Start()
     {
-        patrolSpeed = 0.2f;
+        isDead = false;
         isChase = false;
         enemies = GetComponent<Enemy>();
+        enemyManager = GetComponentInParent<EnemyManager>();
 
-        startWaitTime = Random.Range(3, 7);
+        startWaitTime = 1; //Random.Range(3, 7);
         waitTime = startWaitTime;
-        moveSpot = new Vector2(Random.Range(-25, 25), Random.Range(-18, 18));
+        moveSpot = new Vector2(Random.Range(-33, 33), Random.Range(-33, 33));
     }
 
 
@@ -35,33 +39,58 @@ public class EnemyGroup : MonoBehaviour
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            if(transform.GetChild(i).GetComponent<Enemy>().isAttack)
+            if (transform.GetChild(i).GetComponent<Enemy>().isAttack)
             {
                 speed = 0;
+            }
+            else
+            {
+                speed = 3;
             }
 
         }
 
 
-        if(!isChase)
+        // if(!isChase)
+        // {
+        //    Platrol();
+        // }
+
+        for (int i = 0; i < transform.childCount; i++)
         {
-           Patrol();
+            if (transform.GetChild(i).gameObject.activeSelf)
+            {
+                isDead = true;
+                lastTimeIDied = i;
+                return;
+            }
         }
+        if(isDead)
+         GetDead();
+
     }
 
+    public void GetDead()
+    {
+        panel = GameManager.GetDeadText();
+         panel.SetPosition(new Vector3(transform.GetChild(lastTimeIDied).transform.position.x
+         , transform.GetChild(lastTimeIDied).transform.position.y + 1f,transform.GetChild(lastTimeIDied).transform.position.z));
+           isDead = false;
+
+    }
 
 
     public void Patrol()
     {
         transform.position = Vector2.MoveTowards(transform.position, new Vector2(moveSpot.x, moveSpot.y - 7.5f), speed * Time.deltaTime);
-        isPatrol = true;
+
         if (Vector2.Distance(transform.position, moveSpot) < 8f)
         {
-            isPatrol = false;
+
             if (waitTime <= 0)
             {
                 waitTime = startWaitTime;
-                moveSpot = new Vector2(Random.Range(-25, 25), Random.Range(-20, 20));
+                moveSpot = new Vector2(Random.Range(-33, 33), Random.Range(-33, 23));
 
             }
             else

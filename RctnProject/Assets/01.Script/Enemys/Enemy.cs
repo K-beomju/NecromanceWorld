@@ -10,9 +10,11 @@ public class Enemy : LivingEntity
     private EnemyManager enemyManager;
     private EnemyGroup enemyGroup;
     private LivingPlayer player;
+    private EnemyDead enemyDead;
 
     public int enemyMobs;
     public float chaseSpeed;
+
 
     void Start()
     {
@@ -25,127 +27,63 @@ public class Enemy : LivingEntity
 
     void Update()
     {
-        if (isAttack)
-        {
-            ChaseTarget(hitCollider);
-        }
-
-        if (enemyGroup.moveSpot.x > transform.position.x)
-        {
-            transform.localScale = new Vector2(ChangePos.x, ChangePos.y);
-        }
-        else
-        {
-            transform.localScale = new Vector2(-ChangePos.x, ChangePos.y);
-        }
-
-
-
-
-        if (enemyGroup.isPatrol)
-        {
-            anim.SetFloat("Speed", 1);
-        }
-        else
-        {
-            anim.SetFloat("Speed", 0);
-        }
-        anim.SetBool("Attack", isAttack);
         SensingAttack();
+        moveSpotDir();
+
+
+        anim.SetBool("Idle", IsDir());
+        anim.SetBool("Attack", isAttack);
     }
 
-
-
-    private void ChaseTarget(Collider2D hitCollider)
+    protected Vector3 moveSpotDir()
     {
-        if (hitCollider != null)
+        if (enemyGroup.moveSpot.x < transform.position.x)
         {
-            transform.position = Vector2.MoveTowards(transform.position, hitCollider.transform.position, chaseSpeed * Time.deltaTime);
-
+            return transform.localScale = new Vector2(-1, 1);
         }
+          return transform.localScale = new Vector2(1, 1);
     }
 
-
-
-
-    protected override void Attack()
+    protected  bool IsDir()
     {
-        if (isAttack)
+         if(enemyGroup.isChase ? isIdle : !isIdle)
         {
-
-            LivingEntity target = hitCollider.transform.GetComponent<LivingEntity>();
-
-            if (target != null)
-            {
-                target.OnDamage(attackDamage);
-            }
-
+            return true;
         }
+        return false;
     }
 
-
-    private void SensingAttack()
-    {
-        if (!isDead)
-        {
-            hitCollider = Physics2D.OverlapCircle(transform.position, attackRange, whatIsLayer);
-            if (hitCollider)
-            {
-                if (enemyGroup.moveSpot.x < hitCollider.transform.position.x)
-                {
-                    transform.localScale = new Vector2(ChangePos.x, ChangePos.y);
-                }
-                else
-                {
-                    transform.localScale = new Vector2(-ChangePos.x, ChangePos.y);
-                }
-
-                moveSpeed = 1;
-                isAttack = true;
-            }
-            else
-            {
-                moveSpeed = 4;
-                isAttack = false;
-            }
-        }
-    }
-
-
-
-    public override void OnDamage(float damage)
-    {
-        StartCoroutine(ChangeColor(myColor));
-        base.OnDamage(damage);
-    }
 
     protected override void Die()
     {
         isDead = true;
         isAttack = false;
-
+        isIdle = false;
+        enemyDead = GameManager.GetCreateEnemyDead(enemyMobs);
+        enemyDead.SetPosition(transform.position);
 
         OnNecroEffect(2);
         anim.enabled = false;
         circle.enabled = false;
         enemyManager.Dead(this);
-
+        gameObject.SetActive(false);
     }
 
 
     public void OnNecromance()
     {
+        Debug.Log("hrd");
+        gameObject.transform.parent = this.gameObject.transform.root;
         GameManager.instance.necroAudio.Play();
         player = GameManager.GetCreatePlayer(enemyMobs);
         player.SetPosition(transform.position);
-
+        enemyDead.gameObject.SetActive(false);
         GameManager.instance.cinemachine.AddMember(player.transform, 1, 0);
 
         OnNecroEffect(1);
         GameManager.CamShake(4f, 0.5f);
 
-        gameObject.transform.parent = this.gameObject.transform.root;
-        gameObject.SetActive(false);
+
 
     }
 

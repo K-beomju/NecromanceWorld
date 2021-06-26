@@ -32,24 +32,6 @@ public class LivingPlayer : LivingEntity
 
     }
 
-    private void SensingAttack()
-    {
-        if (!isDead)
-        {
-            hitCollider = Physics2D.OverlapCircle(transform.position, attackRange, whatIsLayer);
-            if (hitCollider)
-            {
-                transform.position = Vector2.MoveTowards(transform.position, hitCollider.transform.position, moveSpeed * Time.deltaTime);
-                moveSpeed = 0.55f;
-                isAttack = true;
-            }
-            else
-            {
-                moveSpeed = 3;
-                isAttack = false;
-            }
-        }
-    }
 
 
 
@@ -60,7 +42,7 @@ public class LivingPlayer : LivingEntity
     {
         if(Vector3.Distance(targetPosition , transform.position) > 4)
         {
-              anim.SetBool("Idle", true);
+            anim.SetBool("Idle", true);
           transform.position = Vector2.MoveTowards(transform.position, targetPosition , moveSpeed * Time.deltaTime);
 
         }
@@ -69,27 +51,24 @@ public class LivingPlayer : LivingEntity
               anim.SetBool("Idle", false);
         }
 
-
-
         normalizedDirection = new Vector2(direction.x, direction.y);
         direction = (targetPosition - transform.position).normalized;
-
-        if (normalizedDirection.x > 0)
-            transform.localScale = new Vector2(ChangePos.x, ChangePos.y);
-        else
-            transform.localScale = new Vector2(-ChangePos.x,ChangePos.y);
 
     }
 
 
-     public override void OnDamage(float damage)
+    public void DelayPos()
     {
-        if(this.gameObject.activeInHierarchy)
-        {
+        if (normalizedDirection.x > 0)
+            transform.localScale = new Vector2(1, 1);
+        else
+            transform.localScale = new Vector2(-1,1);
+    }
 
-        StartCoroutine(ChangeColor(myColor));
-        }
-        base.OnDamage(damage);
+    protected override void Attack()
+    {
+        base.Attack();
+              GameManager.instance.attackAudio[UnityEngine.Random.Range(0,GameManager.instance.attackAudio.Length)].Play();
     }
 
     protected override void Die()
@@ -102,11 +81,6 @@ public class LivingPlayer : LivingEntity
         GameManager.instance.cinemachine.RemoveMember(this.gameObject.transform);
 
     }
-
-
-
-
-
       public void SetPosition(Vector3 pos)
     {
         transform.position = pos;
