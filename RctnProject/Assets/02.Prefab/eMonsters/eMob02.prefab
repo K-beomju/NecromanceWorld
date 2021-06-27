@@ -158,11 +158,9 @@ MonoBehaviour:
   whatIsLayer:
     serializedVersion: 2
     m_Bits: 8
-  ChangePos: {x: 0, y: 0}
   abilityData: {fileID: 11400000, guid: 97361544fbf439140b57d98a36ffcc5d, type: 2}
   offset: {x: 0, y: 0, z: 0}
-  enemyMobs: 1
-  chaseSpeed: 0
+  mobGrade: 1
 --- !u!1 &756798903792118162
 GameObject:
   m_ObjectHideFlags: 0

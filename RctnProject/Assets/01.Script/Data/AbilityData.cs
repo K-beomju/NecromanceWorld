@@ -16,13 +16,4 @@ public class AbilityData : ScriptableObject
     private float attackDamage;
     public float AttackDamage { get { return attackDamage; } }
 
-    [SerializeField]
-    private float moveSpeed;
-    public float MoveSpeed { get { return moveSpeed; } }
-
-
-
-
-
-
 }

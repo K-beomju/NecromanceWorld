@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2772665386441376571}
   - component: {fileID: 2772665386441376573}
   - component: {fileID: 2772665386441376572}
+  - component: {fileID: 953858235888877900}
   m_Layer: 3
   m_Name: pMob02
   m_TagString: Player
@@ -142,6 +143,24 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &953858235888877900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2772665386441376568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5a8ce9b7d08750459a1450297c40c3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whatIsLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  abilityData: {fileID: 11400000, guid: 97361544fbf439140b57d98a36ffcc5d, type: 2}
+  offset: {x: 0, y: 0, z: 0}
+  mobGrade: 1
 --- !u!1 &2772665388116024953
 GameObject:
   m_ObjectHideFlags: 0

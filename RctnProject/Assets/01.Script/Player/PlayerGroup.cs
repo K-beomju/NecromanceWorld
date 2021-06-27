@@ -9,13 +9,12 @@ using System.IO;
 
 public class PlayerGroup : MonoBehaviour
 {
-    public DataController dataController;
     private LivingPlayer living;
 
     void Start()
     {
 
-           for (int i = 0; i < dataController.groupData.mob01count; i++)
+           for (int i = 0; i < 5; i++)
         {
             int t = UnityEngine.Random.Range(0, 361);
             living = GameManager.GetCreatePlayer(0);

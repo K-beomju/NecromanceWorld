@@ -12,15 +12,9 @@ public class Enemy : LivingEntity
     private LivingPlayer player;
     private EnemyDead enemyDead;
 
-    public int enemyMobs;
-    public float chaseSpeed;
-
-
-
-
     void Start()
     {
-
+        SetAbility(0,0);
         enemy = GetComponent<Enemy>();
         enemyGroup = GetComponentInParent<EnemyGroup>();
         enemyManager = GetComponentInParent<EnemyManager>();
@@ -54,6 +48,7 @@ public class Enemy : LivingEntity
         }
         return false;
     }
+
     public override void OnDamage(float damage)
     { if (this.gameObject.activeInHierarchy)
             {
@@ -68,10 +63,11 @@ public class Enemy : LivingEntity
         isDead = true;
         isAttack = false;
         isIdle = false;
-              transform.GetChild(0).transform.rotation =  Quaternion.identity;
+        transform.GetChild(0).transform.rotation =  Quaternion.identity;
         transform.GetChild(0).transform.localPosition = knifeLocalPos;
 
-        enemyDead = GameManager.GetCreateEnemyDead(enemyMobs);
+        enemyDead = GameManager.GetCreateEnemyDead(mobGrade);
+        UiManager.instance.UpDateMobPieces(mobGrade);
         enemyDead.SetPosition(transform.position);
 
         OnNecroEffect(2);
@@ -84,7 +80,7 @@ public class Enemy : LivingEntity
     {
         gameObject.transform.parent = this.gameObject.transform.root;
         GameManager.instance.necroAudio.Play();
-        player = GameManager.GetCreatePlayer(enemyMobs);
+        player = GameManager.GetCreatePlayer(mobGrade);
         player.SetPosition(transform.position);
         enemyDead.gameObject.SetActive(false);
         GameManager.instance.cinemachine.AddMember(player.transform, 1, 0);

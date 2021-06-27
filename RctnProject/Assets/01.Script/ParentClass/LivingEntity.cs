@@ -20,9 +20,9 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     public bool isAttack { get; protected set; }
     public bool isIdle { get; protected set; }
 
-    protected float health;
+    [SerializeField] private float health;
+    [SerializeField] private float attackDamage;
     protected float attackRange;
-    protected float attackDamage;
     protected float moveSpeed;
 
     [SerializeField]
@@ -34,13 +34,15 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     public Vector3 offset;
     protected Vector3 knifeLocalPos;
 
+    public int mobGrade;
+
     void Awake()
     {
-          rig = GetComponent<Rigidbody2D>();
+        rig = GetComponent<Rigidbody2D>();
         circle = GetComponent<CircleCollider2D>();
         anim = GetComponentInChildren<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
-          knifeLocalPos = gameObject.transform.GetChild(0).localPosition;
+        knifeLocalPos = gameObject.transform.GetChild(0).localPosition;
     }
 
     protected virtual void OnEnable()
@@ -48,19 +50,17 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         isDead = false;
         sprite.color = Color.white;
         transform.position = Vector2.zero;
-        SetAbility();
     }
 
 
 
 
 
-    public void SetAbility()
+    public void SetAbility(float upHealth, float upAttackDmg)
     {
-        health = abilityData.Health;
+        health = abilityData.Health + upHealth;
+        attackDamage = abilityData.AttackDamage + upAttackDmg;
         attackRange = abilityData.AttackRange;
-        attackDamage = abilityData.AttackDamage;
-        moveSpeed = abilityData.MoveSpeed;
     }
 
     public virtual void OnDamage(float damage)
@@ -110,7 +110,6 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
             hitCollider = Physics2D.OverlapCircle(transform.position, attackRange, whatIsLayer);
             if (hitCollider)
             {
-
                 transform.position = Vector2.MoveTowards(transform.position, hitCollider.transform.position, moveSpeed * Time.deltaTime);
                 moveSpeed = 0.2f;
                 isAttack = true;
@@ -154,78 +153,14 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         hitEffect = GameManager.GetHitEffect(i);
         hitEffect.SetPositionData(transform.position, Quaternion.identity);
     }
-
     public void OnDeadTxt(GameObject gameObject)
     {
         deadTxt = GameManager.GetDeadText();
         deadTxt.SetPosition(gameObject.transform.position);
     }
-
-
-
-
-
-
     #endregion
 
 
-
-
-
-
-
-
-
-
-
-    // public void DAttack()
-    // {
-
-    //     GameManager.instance.attackAudio[Random.Range(0,   GameManager.instance.attackAudio.Length)].Play();
-
-    //     if (hitCollider != null)
-    //     {
-    //         if (hitCollider.transform.position.x >= transform.position.x)
-    //         {
-    //           transform.localScale = new Vector3(1,1,1);
-    //         }
-    //         else
-    //         {
-    //             transform.localScale = new Vector3(-1,1,1);
-    //         }
-    //         LivingEntity target = hitCollider.gameObject.GetComponent<LivingEntity>();
-    //         if (target != null)
-    //         {
-    //             target.OnDamage(1);
-    //         }
-
-    //     }
-
-    // }
-
-
-    //     public void Attack(string targetName)
-    // {
-    //     int layerMask = 1 << LayerMask.NameToLayer(targetName);
-
-    //     if ((hitCollider = Physics2D.OverlapCircle(transform.position + offset, attackRange, layerMask)) && !isDead)
-    //     {
-    //        //  transform.position = Vector2.MoveTowards(transform.position, hitCollider.transform.position, moveSpeed * Time.deltaTime);
-    //         moveSpeed = 0.55f;
-    //         anim.SetBool("Attack", true);
-    //         isAttack = true;
-
-
-    //     }
-    //     else
-    //     {
-    //         moveSpeed = abilityData.MoveSpeed;
-    //         anim.SetBool("Attack", false);
-    //         isAttack = false;
-
-
-    //     }
-    // }
 
 
 }

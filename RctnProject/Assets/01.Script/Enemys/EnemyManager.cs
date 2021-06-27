@@ -1,4 +1,4 @@
-using System;
+    using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -69,8 +69,7 @@ public class EnemyManager : MonoBehaviour
         }
         if(isClear)
         {
-            Cursor.visible = true;
-          UiManager.instance.shopPanel.SetActive(true);
+
           isClear = false;
         }
     }

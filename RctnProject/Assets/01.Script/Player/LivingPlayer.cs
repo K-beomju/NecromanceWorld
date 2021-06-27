@@ -9,8 +9,11 @@ public class LivingPlayer : LivingEntity
     private Vector3 targetPosition;
     private Vector2 direction;
 
-
-
+    protected override void OnEnable()
+    {
+        SetAbility(UiManager.instance.currentMobHealth[mobGrade],UiManager.instance.currentMobAttackDamage[mobGrade]);
+        base.OnEnable();
+    }
 
 
     void Update()
@@ -42,15 +45,15 @@ public class LivingPlayer : LivingEntity
 
     public void Rotate()
     {
-        if(Vector3.Distance(targetPosition , transform.position) > 4)
+        if (Vector3.Distance(targetPosition, transform.position) > 4)
         {
             anim.SetBool("Idle", true);
-          transform.position = Vector2.MoveTowards(transform.position, targetPosition , moveSpeed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 
         }
         else
         {
-              anim.SetBool("Idle", false);
+            anim.SetBool("Idle", false);
         }
 
         normalizedDirection = new Vector2(direction.x, direction.y);
@@ -64,21 +67,29 @@ public class LivingPlayer : LivingEntity
         if (normalizedDirection.x > 0)
             transform.localScale = new Vector2(1, 1);
         else
-            transform.localScale = new Vector2(-1,1);
+            transform.localScale = new Vector2(-1, 1);
     }
 
     protected override void Attack()
     {
         base.Attack();
-              GameManager.instance.attackAudio[UnityEngine.Random.Range(0,GameManager.instance.attackAudio.Length)].Play();
+        for (int i = 0; i < GameManager.instance.attackAudio.Length; i++)
+        {
+            if (GameManager.instance.attackAudio[i].gameObject.activeSelf)
+            {
+                GameManager.instance.attackAudio[UnityEngine.Random.Range(0, GameManager.instance.attackAudio.Length)].Play();
+
+            }
+
+        }
     }
 
     public override void OnDamage(float damage)
     {
-         if (this.gameObject.activeInHierarchy)
-            {
-        StartCoroutine(ChangeColor());
-            }
+        if (this.gameObject.activeInHierarchy)
+        {
+            StartCoroutine(ChangeColor());
+        }
         base.OnDamage(damage);
     }
 
@@ -92,7 +103,7 @@ public class LivingPlayer : LivingEntity
         GameManager.instance.cinemachine.RemoveMember(this.gameObject.transform);
 
     }
-      public void SetPosition(Vector3 pos)
+    public void SetPosition(Vector3 pos)
     {
         transform.position = pos;
     }
