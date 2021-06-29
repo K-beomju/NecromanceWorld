@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: Mob04Data
   m_EditorClassIdentifier: 
   health: 40
-  attackRange: 1
+  attackRange: 5
   attackDamage: 7
-  moveSpeed: 4

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4071745992356480936}
   - component: {fileID: 4071745992356480937}
   - component: {fileID: 4071745992356480934}
+  - component: {fileID: 481403218406488594}
   m_Layer: 6
   m_Name: eMob04
   m_TagString: Enemy
@@ -141,3 +142,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &481403218406488594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071745992356480941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 652eb05312189324f8c8d105bec83214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whatIsLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  health: 0
+  attackDamage: 0
+  abilityData: {fileID: 11400000, guid: dfc99290ed248ce41988d61c9cc176d8, type: 2}
+  offset: {x: 0, y: 0, z: 0}
+  mobGrade: 3
+  isHit: 0

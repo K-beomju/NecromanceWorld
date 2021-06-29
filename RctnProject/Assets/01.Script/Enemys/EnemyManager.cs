@@ -32,13 +32,14 @@ public class EnemyManager : MonoBehaviour
     public int setEnemyGroup;
     public int remainingEnemy;
 
+    public GameObject playerGroup;
+
+
     void OnEnable()
     {
         isClear = false;
         enemySet = 0;
-
-      //  enemyGroupCount = 0;
-       // enemyCount = 0;
+        enemyCount = 0;
 
 
         EnemySpawner();
@@ -69,7 +70,8 @@ public class EnemyManager : MonoBehaviour
         }
         if(isClear)
         {
-
+            Cursor.visible = true;
+            UiManager.instance.OnShopPanel();
           isClear = false;
         }
     }
@@ -98,7 +100,8 @@ public class EnemyManager : MonoBehaviour
             //적들을 미리 만들어둔 적의 그룹에 넣어준다.
             enemyStructs[enemyGroupCount].enemy[i].gameObject.transform.parent = enemyGroup.transform;
             // 적 원형 생성 코사인과 라디안
-            enemyStructs[enemyGroupCount].enemy[i].transform.position += new Vector3(Mathf.Cos(t) / 2, Mathf.Sin(t) / 2);
+            enemyStructs[enemyGroupCount].enemy[i].transform.position += new Vector3( Mathf.Cos(t), Mathf.Sin(t)); // Mathf.Cos(t) / 2, Mathf.Sin(t) / 2
+
         }
         // 적 그룹의 포지션을 미리 지정해둔 스폰 포인트에 설정해준다.
     }

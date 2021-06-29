@@ -11,20 +11,23 @@ public class Enemy : LivingEntity
     private EnemyGroup enemyGroup;
     private LivingPlayer player;
     private EnemyDead enemyDead;
+    public bool isHit;
 
     void Start()
     {
-        SetAbility(0,0);
+        isHit = false;
+        SetAbility(0, 0);
         enemy = GetComponent<Enemy>();
         enemyGroup = GetComponentInParent<EnemyGroup>();
         enemyManager = GetComponentInParent<EnemyManager>();
+
     }
 
 
     void Update()
     {
-        SensingAttack();
-        moveSpotDir();
+          SensingAttack();
+        //moveSpotDir();
 
 
         anim.SetBool("Idle", IsDir());
@@ -37,12 +40,12 @@ public class Enemy : LivingEntity
         {
             return transform.localScale = new Vector2(-1, 1);
         }
-          return transform.localScale = new Vector2(1, 1);
+        return transform.localScale = new Vector2(1, 1);
     }
 
-    protected  bool IsDir()
+    protected bool IsDir()
     {
-         if(enemyGroup.isChase ? isIdle : !isIdle)
+        if (enemyGroup.isChase ? isIdle : !isIdle)
         {
             return true;
         }
@@ -50,10 +53,13 @@ public class Enemy : LivingEntity
     }
 
     public override void OnDamage(float damage)
-    { if (this.gameObject.activeInHierarchy)
-            {
-        StartCoroutine(ChangeColor());
-            }
+    {
+        if (this.gameObject.activeInHierarchy)
+        {
+            isHit = true;
+            StartCoroutine(ChangeColor());
+        }
+
         base.OnDamage(damage);
     }
 
@@ -63,13 +69,16 @@ public class Enemy : LivingEntity
         isDead = true;
         isAttack = false;
         isIdle = false;
-        transform.GetChild(0).transform.rotation =  Quaternion.identity;
+        if(mobGrade <=2)
+        {
+        transform.GetChild(0).transform.rotation = Quaternion.identity;
         transform.GetChild(0).transform.localPosition = knifeLocalPos;
+        }
 
         enemyDead = GameManager.GetCreateEnemyDead(mobGrade);
         UiManager.instance.UpDateMobPieces(mobGrade);
         enemyDead.SetPosition(transform.position);
-
+          GameManager.instance.deadAudio[1].Play();
         OnNecroEffect(2);
         enemyManager.Dead(this);
         gameObject.SetActive(false);

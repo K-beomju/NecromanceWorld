@@ -44,8 +44,11 @@ public class GameManager : MonoBehaviour
     public CameraEffect camEffect;
 
     public AudioSource necroAudio;
-    public AudioSource deadAudio;
+    public AudioSource[] deadAudio;
     public AudioSource[] attackAudio;
+    public AudioSource shopAudio;
+    public AudioSource stageAudio;
+
 
 
     public int playerGroup;
@@ -74,7 +77,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < enemyPrefab.Length; i++)
         {
             enemyPrefab[i].gameObject.SetActive(false);
-            enemyPool[i] = new ObjectPooling<Enemy>(enemyPrefab[i], enemyGroupObj.transform, 10);
+            enemyPool[i] = new ObjectPooling<Enemy>(enemyPrefab[i], enemyGroupObj.transform, 50);
         }
 
         // 플레이어 풀링

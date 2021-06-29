@@ -73,9 +73,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1365362233
-  m_SortingLayer: 1
-  m_SortingOrder: 3
+  m_SortingLayerID: 2127199341
+  m_SortingLayer: 2
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 63a8f9a364b613a4ab166b01fab81dc5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -158,6 +158,8 @@ MonoBehaviour:
   whatIsLayer:
     serializedVersion: 2
     m_Bits: 64
+  health: 0
+  attackDamage: 0
   abilityData: {fileID: 11400000, guid: 97361544fbf439140b57d98a36ffcc5d, type: 2}
   offset: {x: 0, y: 0, z: 0}
   mobGrade: 1
@@ -229,9 +231,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1365362233
-  m_SortingLayer: 1
-  m_SortingOrder: 4
+  m_SortingLayerID: 2127199341
+  m_SortingLayer: 2
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 062d7d7ea355a8c42b6bebaad8a99fe7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

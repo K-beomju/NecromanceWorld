@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2989096774025453756}
   - component: {fileID: 2989096774025453759}
   - component: {fileID: 2989096774025453757}
+  - component: {fileID: 2786695823806200826}
   m_Layer: 3
   m_Name: pMob04
   m_TagString: Player
@@ -141,3 +142,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2786695823806200826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2989096774025453744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5a8ce9b7d08750459a1450297c40c3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whatIsLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  health: 0
+  attackDamage: 0
+  abilityData: {fileID: 11400000, guid: dfc99290ed248ce41988d61c9cc176d8, type: 2}
+  offset: {x: 0, y: 0, z: 0}
+  mobGrade: 3

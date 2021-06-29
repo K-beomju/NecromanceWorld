@@ -39,13 +39,9 @@ public class LivingPlayer : LivingEntity
 
 
 
-
-
-
-
     public void Rotate()
     {
-        if (Vector3.Distance(targetPosition, transform.position) > 4)
+        if (Vector3.Distance(targetPosition, transform.position) > 3)
         {
             anim.SetBool("Idle", true);
             transform.position = Vector2.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
@@ -96,7 +92,7 @@ public class LivingPlayer : LivingEntity
     protected override void Die()
     {
         isDead = true;
-        GameManager.instance.deadAudio.Play();
+        GameManager.instance.deadAudio[0].Play();
         OnNecroEffect(3);
         GameManager.CamShake(2f, 0.5f);
         gameObject.SetActive(false);

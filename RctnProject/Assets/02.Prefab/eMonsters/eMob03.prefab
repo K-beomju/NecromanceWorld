@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 1010314251510139284}
   - component: {fileID: 1010314251510139285}
   - component: {fileID: 1010314251510139286}
+  - component: {fileID: 4815248399686912139}
   m_Layer: 6
   m_Name: eMob03
   m_TagString: Enemy
@@ -224,3 +225,23 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &4815248399686912139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010314251510139289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 652eb05312189324f8c8d105bec83214, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whatIsLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  health: 0
+  attackDamage: 0
+  abilityData: {fileID: 11400000, guid: db91183974b6a114498ab108e0779894, type: 2}
+  offset: {x: 0, y: 0, z: 0}
+  mobGrade: 2

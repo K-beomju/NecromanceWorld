@@ -42,7 +42,11 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         circle = GetComponent<CircleCollider2D>();
         anim = GetComponentInChildren<Animator>();
         sprite = GetComponentInChildren<SpriteRenderer>();
+
+        if(mobGrade <= 2)
+        {
         knifeLocalPos = gameObject.transform.GetChild(0).localPosition;
+        }
     }
 
     protected virtual void OnEnable()

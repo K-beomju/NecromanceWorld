@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4067410544374274460
 Transform:
   m_ObjectHideFlags: 0
@@ -43,6 +43,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50bb24f2a6e889843b9ff81df5d4393e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  isChase: 0
-  moveSpot: {x: 0, y: 0}
+  speed: 2
+  isChase: 1
+  moveSpot: {x: 0, y: 0, z: 0}
+  playerList: []
+  target: {fileID: 0}
+  range: 5

@@ -158,10 +158,12 @@ MonoBehaviour:
   whatIsLayer:
     serializedVersion: 2
     m_Bits: 8
+  health: 0
+  attackDamage: 0
   abilityData: {fileID: 11400000, guid: 0f92a18936d7070499f0786a09c8aa12, type: 2}
-  offset: {x: 0.09, y: -0.21, z: 0}
-  enemyMobs: 0
-  chaseSpeed: 0.55
+  offset: {x: 0.09, y: -0.18, z: 0}
+  mobGrade: 0
+  isHit: 0
 --- !u!1 &4021740692283635063
 GameObject:
   m_ObjectHideFlags: 0

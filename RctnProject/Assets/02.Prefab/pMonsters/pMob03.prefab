@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6750594800411156705}
   - component: {fileID: 6750594800411156711}
   - component: {fileID: 6750594800411156704}
+  - component: {fileID: 7663189321476549149}
   m_Layer: 3
   m_Name: pMob03
   m_TagString: Player
@@ -72,9 +73,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1365362233
-  m_SortingLayer: 1
-  m_SortingOrder: 3
+  m_SortingLayerID: 2127199341
+  m_SortingLayer: 2
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: be0efa9d5cef830449d0f2d988e8fb14, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -142,6 +143,26 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &7663189321476549149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6750594800411156732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5a8ce9b7d08750459a1450297c40c3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  whatIsLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  health: 0
+  attackDamage: 0
+  abilityData: {fileID: 11400000, guid: db91183974b6a114498ab108e0779894, type: 2}
+  offset: {x: 0, y: 0, z: 0}
+  mobGrade: 2
 --- !u!1 &6750594800511755490
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,9 +231,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1365362233
-  m_SortingLayer: 1
-  m_SortingOrder: 4
+  m_SortingLayerID: 2127199341
+  m_SortingLayer: 2
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 062d7d7ea355a8c42b6bebaad8a99fe7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

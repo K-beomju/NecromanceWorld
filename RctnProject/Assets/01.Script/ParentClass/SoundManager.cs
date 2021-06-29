@@ -22,7 +22,8 @@ public class SoundManager : MonoBehaviour
         {
                UiManager.instance.musicTxt.text = "OFF";
             GameManager.instance.necroAudio.gameObject.SetActive(false);
-            GameManager.instance.deadAudio.gameObject.SetActive(false);
+            GameManager.instance.deadAudio[0].gameObject.SetActive(false);
+             GameManager.instance.deadAudio[1].gameObject.SetActive(false);
             for (int i = 0; i < GameManager.instance.attackAudio.Length; i++)
             {
             GameManager.instance.attackAudio[i].gameObject.SetActive(false);
@@ -35,7 +36,8 @@ public class SoundManager : MonoBehaviour
 
               UiManager.instance.musicTxt.text = "ON";
              GameManager.instance.necroAudio.gameObject.SetActive(true);
-            GameManager.instance.deadAudio.gameObject.SetActive(true);
+           GameManager.instance.deadAudio[0].gameObject.SetActive(true);
+             GameManager.instance.deadAudio[1].gameObject.SetActive(true);
             for (int i = 0; i < GameManager.instance.attackAudio.Length; i++)
             {
             GameManager.instance.attackAudio[i].gameObject.SetActive(true);

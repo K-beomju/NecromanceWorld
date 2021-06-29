@@ -11,14 +11,13 @@ public class UiManager : MonoBehaviour
     public EnemyManager enemyManager;
 
     [Header("Stage Panel")]
-    public Image stageImage;
+    public CanvasGroup stageImage;
     public Text stageText;
     private int countStage = 0;
 
 
     [Header("Shop Panel")]
-    public GameObject shopPanel;
-    private bool isShop;
+    public RectTransform shopPanel;
     public Button shopBtn;
 
     [Serializable]
@@ -66,7 +65,7 @@ public class UiManager : MonoBehaviour
     {
         instance = this;
         isSetting = false;
-        isShop = false;
+
     }
 
     void Start()
@@ -83,30 +82,17 @@ public class UiManager : MonoBehaviour
         }
 
 
-        shopBtn.onClick.AddListener(ShopBtn);
+        shopBtn.onClick.AddListener(OffShopPanel);
         exitBtn.onClick.AddListener(ExitGame);
         StageClearEvent();
         ShowMobPieces();
+
 
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (!isShop)
-            {
-                Cursor.visible = true;
-                shopPanel.SetActive(true);
-                isShop = true;
-            }
-            else
-            {
-                Cursor.visible = false;
-                shopPanel.SetActive(false);
-                isShop = false;
-            }
-        }
+
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -125,20 +111,30 @@ public class UiManager : MonoBehaviour
         }
     }
 
-    private void ShopBtn()
-    {
-        shopPanel.SetActive(false);
 
         // StageClearEvent();
         // enemyManager.EnemySpawner();
-    }
+
 
     private void StageClearEvent()
     {
         countStage++;
         stageText.text = ($"  STAGE  {countStage}");
-        stageImage.rectTransform.DOAnchorPosY(434, 1).OnComplete(() => stageImage.rectTransform.DOAnchorPosY(600, 1).SetDelay(2));
+        stageImage.DOFade(1,1).SetDelay(1).OnComplete(() => stageImage.DOFade(0,1).SetDelay(1));
+        GameManager.instance.stageAudio.PlayDelayed(1);
+    }
 
+    public void OnShopPanel()
+    {
+        GameManager.instance.shopAudio.Play();
+        shopPanel.DOAnchorPosY(-7.8f, 1);//OnComplete(() => shopPanel.DOAnchorPosY(1142, 1).SetDelay(2));
+    }
+
+    public void OffShopPanel()
+    {
+        enemyManager.EnemySpawner();
+          StageClearEvent();
+        shopPanel.DOAnchorPosY(1142, 1);
     }
 
     private void ExitGame() // 환경 설정 나가기
