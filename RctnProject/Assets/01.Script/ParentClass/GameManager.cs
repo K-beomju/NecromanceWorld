@@ -50,8 +50,7 @@ public class GameManager : MonoBehaviour
     public AudioSource stageAudio;
 
 
-
-    public int playerGroup;
+    public int playerCount;
 
 
     void Awake()
@@ -96,15 +95,9 @@ public class GameManager : MonoBehaviour
             enemydeadPool[i] = new ObjectPooling<EnemyDead>(enemyDeadPrefab[i], this.transform, 10);
         }
 
-    }
-
-     void Start()
-    {
-        playerGroup = 5;
         endPanel.SetActive(false);
-
-
     }
+
 
     public static void CamShake(float intense, float during)
     {

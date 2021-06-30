@@ -3,16 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//생명체로 동작할 게임 오브젝트들의 뼈대
-//체력, 피해받음, 사망 기능, 사망 , 공격
 
 public abstract class LivingEntity : MonoBehaviour, IDamageable
 {
-    protected SpriteRenderer sprite; // 마우스 위치 비교, 어디서 공격하는지 비교, 적 그룹 순찰할때 비교
-    protected Animator anim; // 대기 , 달리기 , 공격
-    protected CircleCollider2D circle; // 죽으면 콜라이더 꺼줌
+    protected SpriteRenderer sprite;
+    protected Animator anim;
+    protected CircleCollider2D circle;
     protected Rigidbody2D rig;
-    protected Collider2D hitCollider; // 공격 감지 콜라이더 ,추적
+    protected Collider2D hitCollider;
     public LayerMask whatIsLayer;
 
 
@@ -47,6 +45,8 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
         {
         knifeLocalPos = gameObject.transform.GetChild(0).localPosition;
         }
+
+
     }
 
     protected virtual void OnEnable()

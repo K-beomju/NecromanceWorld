@@ -43,12 +43,11 @@ public class UiManager : MonoBehaviour
     private float[] mobHealth; // 몹의 생명력
     public float[] currentMobHealth; // 현재 몹의 생명력
 
-    private float[] mobAttackDamage;
-    public float[] currentMobAttackDamage;
+    private float[] mobAttackDamage; // 몹의 공격력
+    public float[] currentMobAttackDamage; // 현재 몹의 공격력
 
-
-
-
+    public Text attackText;
+    public int attackPower;  // 아군 군대의 힘
 
 
     [Header("Setting Panel")]
@@ -90,6 +89,14 @@ public class UiManager : MonoBehaviour
 
     }
 
+    public string PowerText(int power)
+    {
+      attackPower += power;
+      return UiManager.instance. attackText.text =  UiManager.instance.attackPower.ToString();
+    }
+
+
+
     void Update()
     {
 
@@ -110,11 +117,6 @@ public class UiManager : MonoBehaviour
             }
         }
     }
-
-
-        // StageClearEvent();
-        // enemyManager.EnemySpawner();
-
 
     private void StageClearEvent()
     {
@@ -137,7 +139,7 @@ public class UiManager : MonoBehaviour
         shopPanel.DOAnchorPosY(1142, 1);
     }
 
-    private void ExitGame() // 환경 설정 나가기
+    private void ExitGame()
     {
         Application.Quit();
     }

@@ -13,6 +13,9 @@ public class LivingPlayer : LivingEntity
     {
         SetAbility(UiManager.instance.currentMobHealth[mobGrade],UiManager.instance.currentMobAttackDamage[mobGrade]);
         base.OnEnable();
+        UiManager.instance.PowerText(mobGrade + 1);
+        GameManager.instance.playerCount++;
+
     }
 
 
@@ -97,6 +100,7 @@ public class LivingPlayer : LivingEntity
         GameManager.CamShake(2f, 0.5f);
         gameObject.SetActive(false);
         GameManager.instance.cinemachine.RemoveMember(this.gameObject.transform);
+
 
     }
     public void SetPosition(Vector3 pos)
