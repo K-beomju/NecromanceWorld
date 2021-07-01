@@ -19,7 +19,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
     public bool isIdle { get; protected set; }
 
     [SerializeField] private float health;
-    [SerializeField] private float attackDamage;
+    public float attackDamage;
     protected float attackRange;
     protected float moveSpeed;
 
@@ -115,7 +115,7 @@ public abstract class LivingEntity : MonoBehaviour, IDamageable
             if (hitCollider)
             {
                 transform.position = Vector2.MoveTowards(transform.position, hitCollider.transform.position, moveSpeed * Time.deltaTime);
-                moveSpeed = 0.2f;
+                moveSpeed = 0.1f;
                 isAttack = true;
             }
             else

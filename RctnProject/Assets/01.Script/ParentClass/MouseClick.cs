@@ -38,9 +38,13 @@ public class MouseClick : MonoBehaviour
                 {
                     for (int j = 0; j < enemyGroup[i].transform.childCount; j++)
                     {
-                        enemyGroup[i].transform.GetChild(j).transform.GetComponent<Enemy>().OnNecromance();
+                        if(!enemyGroup[i].transform.GetChild(j).gameObject.activeSelf)
+                        {
                         enemyGroup[i].gameObject.SetActive(false);
+                        enemyGroup[i].transform.GetChild(j).transform.GetComponent<Enemy>().OnNecromance();
                         GameManager.CamShake(5,0.5f);
+
+                        }
                     }
 
                 }

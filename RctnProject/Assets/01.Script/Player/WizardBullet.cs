@@ -7,18 +7,21 @@ public class WizardBullet : MonoBehaviour
 {
     public float attackPower;
     public float knockTime;
+
     public float moveSpeed;
-    private Transform player;
-    private Vector2 target;
+    private Transform targetPos;
+    public string targetName;
+    public float attackDamage;
     private Vector2 dir;
 
+    void OnEnable()
+    {
+    }
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
-
-        dir = (player.position - transform.position).normalized;
-
+        targetPos = GameObject.FindGameObjectWithTag(targetName).GetComponent<Transform>();
+        dir = (targetPos.position - transform.position).normalized;
     }
 
     void Update()
@@ -28,13 +31,14 @@ public class WizardBullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Player"))
+        if (other.gameObject.layer == LayerMask.NameToLayer(targetName))
         {
             LivingEntity target = other.transform.GetComponent<LivingEntity>();
             if (target != null)
             {
-                target.OnDamage(20);
+                target.OnDamage(attackDamage);
             }
+            Destroy(this.gameObject, 10);
 
             Rigidbody2D rig = other.GetComponent<Rigidbody2D>();
             if(rig !=null)

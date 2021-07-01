@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
         Cursor.visible = false;
 
         // 적 그룹 obj
-        groupPool = new ObjectPooling<EnemyGroup>(enemyGroupPrefab, enemyGroupObj.transform, 8);
+        groupPool = new ObjectPooling<EnemyGroup>(enemyGroupPrefab, enemyGroupObj.transform, 16);
 
         // 이펙트 풀링
         effectPool = new ObjectPooling<EffectObject>[effect.Length];
@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < enemyPrefab.Length; i++)
         {
             enemyPrefab[i].gameObject.SetActive(false);
-            enemyPool[i] = new ObjectPooling<Enemy>(enemyPrefab[i], enemyGroupObj.transform, 50);
+            enemyPool[i] = new ObjectPooling<Enemy>(enemyPrefab[i], enemyGroupObj.transform, 100);
         }
 
         // 플레이어 풀링
@@ -137,15 +137,17 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKey(KeyCode.Q))
+
+        for (int i = 0; i < playerGroupObj.transform.childCount  ; i++)
         {
-
-
-         crossHair.SetActive(false);
+            if(playerGroupObj.transform.GetChild(i).gameObject.activeSelf)
+            {
+                return;
+            }
+        }
+            crossHair.SetActive(false);
           endPanel.SetActive(true);
             Cursor.visible = true;
-
-        }
 
     }
 

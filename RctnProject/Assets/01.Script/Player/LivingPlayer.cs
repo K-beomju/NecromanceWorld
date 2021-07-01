@@ -9,6 +9,7 @@ public class LivingPlayer : LivingEntity
     private Vector3 targetPosition;
     private Vector2 direction;
 
+
     protected override void OnEnable()
     {
         SetAbility(UiManager.instance.currentMobHealth[mobGrade],UiManager.instance.currentMobAttackDamage[mobGrade]);
@@ -95,6 +96,7 @@ public class LivingPlayer : LivingEntity
     protected override void Die()
     {
         isDead = true;
+          UiManager.instance.PowerText(mobGrade - 1);
         GameManager.instance.deadAudio[0].Play();
         OnNecroEffect(3);
         GameManager.CamShake(2f, 0.5f);

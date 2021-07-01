@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4071745992356480937}
   - component: {fileID: 4071745992356480934}
   - component: {fileID: 481403218406488594}
+  - component: {fileID: 5058386795917919829}
   m_Layer: 6
   m_Name: eMob04
   m_TagString: Enemy
@@ -74,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2127199341
   m_SortingLayer: 2
-  m_SortingOrder: 3
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: 74c2d17af1d6dc445ab50e69272bc1ae, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -163,3 +164,18 @@ MonoBehaviour:
   offset: {x: 0, y: 0, z: 0}
   mobGrade: 3
   isHit: 0
+--- !u!114 &5058386795917919829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4071745992356480941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28dfd7021af21dc4c9e23a9e7fb55847, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 1856489711310218141, guid: ccf4af4eb8afe9447be00bb3741d64ea, type: 3}
+  wizardBullet: {fileID: -1665593878503460154, guid: ccf4af4eb8afe9447be00bb3741d64ea, type: 3}
+  enemy: {fileID: 481403218406488594}

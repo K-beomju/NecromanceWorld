@@ -48,42 +48,29 @@ public class EnemyManager : MonoBehaviour
     void Start()
     {
         EnemySpawner();
-
     }
 
     public void EnemySpawner()
     {
 
+        // 밸런스 잡고 있습니다..
         for (enemyGroupCount = 0; enemyGroupCount < setEnemyGroup; enemyGroupCount++)
         {
-            SetEnemyGroup();
-
             if (UiManager.instance.attackPower <= 10)
             {
+
                 enemyGrade = 0;
             }
-            else if (UiManager.instance.attackPower <= 20)
+            else if (UiManager.instance.attackPower <= 30)
             {
-                var random = UnityEngine.Random.Range(0, 11);
-                enemyGrade = random <= 7 ? 0 : 1;
-            }
-            else if(UiManager.instance.attackPower <= 30)
-            {
-                var random = UnityEngine.Random.Range(0,10);
 
-                if(random <= 3)
-                {
-                    enemyGrade = 0;
-                }
-                else if(random <=6 )
-                {
-                    enemyGrade = 1;
-                }
-                else
-                {
-                    enemyGrade = 2;
-                }
+                var random = UnityEngine.Random.Range(0, 11);
+                 enemyGrade = random <= 5 ? 0 : 1;
             }
+
+
+
+            SetEnemyGroup();
 
             SetCreateEnemy(enemyGrade);
             enemyGroup.SetPositionData(new Vector2(spawnPoint[spawn].transform.position.x, spawnPoint[spawn].transform.position.y), Quaternion.identity);
@@ -113,14 +100,39 @@ public class EnemyManager : MonoBehaviour
     public void SetEnemyGroup()
     {
         int randCount = 0;
-        //적의 스폰 카운트 지정 플레이어 유닛에 맞춰서 지정
 
-            if(enemyGrade == 0)
-            randCount = UnityEngine.Random.Range(GameManager.instance.playerCount - 3, GameManager.instance.playerCount + 1);
+               if (enemyGrade == 0)
+        {
+            if (UiManager.instance.attackPower <= 10)
+            {
+                randCount = UnityEngine.Random.Range(GameManager.instance.playerCount - 2, GameManager.instance.playerCount + 1);
+            }
+            else if (UiManager.instance.attackPower <= 30)
+            {
+                randCount = UnityEngine.Random.Range(GameManager.instance.playerCount / 2 - 5, GameManager.instance.playerCount  / 2);
+
+            }
+
+        }
+        else if (enemyGrade == 1)
+        {
+            if (UiManager.instance.attackPower <= 30)
+            {
+                randCount = UnityEngine.Random.Range(GameManager.instance.playerCount / 3 - 2, GameManager.instance.playerCount / 3 + 1);
+            }
+        }
+        else if(enemyGrade == 3)
+        {
+            if(UiManager.instance.attackPower <= 10)
+            {
+                randCount = 2;
+            }
+        }
+
+
 
 
         enemyCount = randCount;
-        Debug.Log(GameManager.instance.playerCount + " " + enemyGrade + " " + enemyCount);
         //적 컨테이너에 적의 {i}번째 그룹에 enemyCount를 미리 생성해준다.
         enemyStructs[enemyGroupCount].enemy = new Enemy[enemyCount];
         //적의 그룹을 가져온다.
@@ -151,6 +163,7 @@ public class EnemyManager : MonoBehaviour
             enemyStructs[i].enemy = null;
         }
     }
+
 
 
 }

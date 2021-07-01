@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7ce2576673d8f74f892e4c177c391b3, type: 3}
   m_Name: Mob04Data
   m_EditorClassIdentifier: 
-  health: 40
-  attackRange: 5
-  attackDamage: 7
+  health: 20
+  attackRange: 3
+  attackDamage: 2.5

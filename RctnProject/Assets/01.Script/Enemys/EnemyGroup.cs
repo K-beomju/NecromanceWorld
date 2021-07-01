@@ -25,7 +25,15 @@ public class EnemyGroup : MonoBehaviour
 
     void Start()
     {
-        isDead = false;
+
+    }
+
+    void OnEnable()
+    {
+
+        isChase = false;
+
+          isDead = false;
 
         enemies = GetComponent<Enemy>();
         enemyManager = GetComponentInParent<EnemyManager>();
@@ -41,11 +49,6 @@ public class EnemyGroup : MonoBehaviour
                 playerList.Add(enemyManager.playerGroup.transform.GetChild(i).gameObject);
             }
         }
-    }
-
-    void OnEnable()
-    {
-        isChase = false;
     }
 
 

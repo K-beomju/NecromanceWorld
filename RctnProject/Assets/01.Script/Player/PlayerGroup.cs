@@ -11,12 +11,13 @@ public class PlayerGroup : MonoBehaviour
 {
     private LivingPlayer living;
     public int grade;
+    public int counts;
 
-
+    // test
     void Start()
     {
 
-           for (int i = 0; i < 5; i++)
+           for (int i = 0; i < counts; i++)
         {
             int t = UnityEngine.Random.Range(0, 361);
             living = GameManager.GetCreatePlayer(grade);

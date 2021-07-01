@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2989096774025453759}
   - component: {fileID: 2989096774025453757}
   - component: {fileID: 2786695823806200826}
+  - component: {fileID: 3960816946290206808}
   m_Layer: 3
   m_Name: pMob04
   m_TagString: Player
@@ -72,9 +73,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1365362233
-  m_SortingLayer: 1
-  m_SortingOrder: 3
+  m_SortingLayerID: 2127199341
+  m_SortingLayer: 2
+  m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: f72720edbb35edb48b570fa0bbe88142, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -162,3 +163,18 @@ MonoBehaviour:
   abilityData: {fileID: 11400000, guid: dfc99290ed248ce41988d61c9cc176d8, type: 2}
   offset: {x: 0, y: 0, z: 0}
   mobGrade: 3
+--- !u!114 &3960816946290206808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2989096774025453744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e424958d37e774c40b7cd66619fdb36a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bullet: {fileID: 1856489711310218141, guid: 5891c96e1b41a5646b941b45b4965435, type: 3}
+  wizardBullet: {fileID: -1665593878503460154, guid: 5891c96e1b41a5646b941b45b4965435, type: 3}
+  livingPlayer: {fileID: 2786695823806200826}

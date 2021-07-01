@@ -100,17 +100,18 @@ public class UiManager : MonoBehaviour
     void Update()
     {
 
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (!isSetting)
             {
+                Time.timeScale = 0;
                 Cursor.visible = true;
                 settingPanel.SetActive(true);
                 isSetting = true;
             }
             else
             {
+                  Time.timeScale = 1;
                 Cursor.visible = false;
                 settingPanel.SetActive(false);
                 isSetting = false;
@@ -160,7 +161,7 @@ public class UiManager : MonoBehaviour
             else
             {
                 upgrade[i].abilityText.text =
-                 ($"이름 : {upgrade[i].mobName}\n생명력 : {mobHealth[i]}<color=#00ff00> -> {mobHealth[i] + (i + 1) * 2}  </color>\n공격력 : {mobAttackDamage[i]}");
+                 ($"이름 : {upgrade[i].mobName}\n생명력 : {mobHealth[i]}<color=#00ff00> -> {mobHealth[i] + (i + 1) * 0.7f}  </color>\n공격력 : {mobAttackDamage[i]}");
 
             }
             upgrade[i].mobLevelText.text = ($"Lv.{upgrade[i].mobLevel}");
@@ -185,7 +186,7 @@ public class UiManager : MonoBehaviour
             }
             else
             {
-                mobHealth[index] += (index + 1) * 2;
+                mobHealth[index] += (index + 1) * 0.7f;
                 currentMobHealth[index] = mobHealth[index] - upgrade[index].abilityData.Health;
             }
               upgrade[index].mobLevel++;
